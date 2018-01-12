@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul{
+            /*none 不使用项目符号(CSS1) disc： 实心圆(CSS1) circle：空心圆(CSS1) square：实心方块(CSS1) ecimal：阿拉伯数字(CSS1)*/
+            list-style-type: none;
+            margin:0;
+            padding: 0;
+            /*hidden：隐藏溢出容器的内容且不出现滚动条。*/
+            overflow: hidden;
+            background-color: #333;
+        }
+        li{
+            float: left;
+        }
+        li a, .dropbtn{
+            /*nline-block：指定对象为内联块元素。*/
+            display: inline-block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        li a:hover, .dropdown:hover .dropbtn{
+            background-color: #111111;
+        }
+        .dropdown{
+            display: inline-block;
+        }
+        .dropdown-content{
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        }
+        .dropdown-content a{
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover{
+            background-color: #f1f1f1;
+        }
+        .dropdown:hover .dropdown-content{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<ul>
+    <li><a href="#">主页</a></li>
+    <li><a href="#">新闻</a></li>
+    <div class="dropdown">
+        <a href="#" class="dropbtn">下拉菜单</a>
+        <div class="dropdown-content">
+            <a href="#">menu 1</a>
+            <a href="#">menu 2</a>
+            <a href="#">menu 3</a>
+        </div>
+    </div>
+</ul>
+
+
+</body>
+</html>

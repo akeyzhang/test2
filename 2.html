@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="UTF-8" >
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
+</head>
+
+<body>
+    <div class="example">
+        <ul id="nav">
+            <li><a href="http://www.script-tutorials.com/">Home</a></li>
+            <li><a class="fly" href="#">Tutorials</a>
+                <ul class="dd">
+                    <li><a href="http://www.script-tutorials.com/category/html-css/">HTML / CSS</a></li>
+                    <li><a class="fly" href="#">JS / jQuery</a>
+                        <ul>
+                            <li><a href="http://www.script-tutorials.com/category/jquery/">jQuery</a></li>
+                            <li><a href="http://www.script-tutorials.com/category/javascript/">JS</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="http://www.script-tutorials.com/category/php/">PHP</a></li>
+                    <li><a href="http://www.script-tutorials.com/category/mysql/">MySQL</a></li>
+                    <li><a href="http://www.script-tutorials.com/category/xslt/">XSLT</a></li>
+                    <li><a href="http://www.script-tutorials.com/category/ajax/">Ajax</a></li>
+                </ul>
+            </li>
+            <li><a class="fly" href="#">Resources</a>
+                <ul class="dd">
+                    <li><a class="fly" href="#">By category</a>
+                        <ul>
+                            <li><a href="http://www.script-tutorials.com/category/php/">PHP</a></li>
+                            <li><a href="http://www.script-tutorials.com/category/mysql/">MySQL</a></li>
+                            <li><a class="fly" href="#">Menu1</a>
+                                <ul>
+                                    <li><a href="#">Menu1</a></li>
+                                    <li><a href="#">Menu2</a></li>
+                                    <li><a class="fly" href="#">Menu3</a>
+                                        <ul>
+                                            <li><a href="#">Menu31</a></li>
+                                            <li><a href="#">Menu32</a></li>
+                                            <li><a href="#">Menu33</a></li>
+                                            <li><a href="#">Menu34</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Menu4</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="http://www.script-tutorials.com/category/ajax/">Ajax</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="fly" href="#">By tag name</a>
+                        <ul>
+                            <li><a href="http://www.script-tutorials.com/tag/captcha/">captcha</a></li>
+                            <li><a href="http://www.script-tutorials.com/tag/gallery/">gallery</a></li>
+                            <li><a href="http://www.script-tutorials.com/tag/animation/">animation</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="http://www.script-tutorials.com/about/">About</a></li>
+            <li><a href="http://www.script-tutorials.com/click-action-multilevel-css3-dropdown-menu/">Go Back To The Tutorial</a></li>
+        </ul>
+    </div>
+    <!--     ********************************************************************************* -->
+    <form>
+        <input type="text" id="city" list="citylist"  value="" placeholder="請輸入城市" required autofocus/>
+        <datalist id="citylist" >
+            <option label="東莞" value="dongguan">dongguan</option>
+            <option label="廣州"value="guangzhou">guangzhou</option>
+            <option label="衡陽"value="hengyang">hengyang</option>
+            <option label="杭州"value="hangzhou">hengzhou</option>
+        </datalist>
+        <br>
+        <input type="date" id="datepick1" value="2018-01-11"/>
+        <table id="table1" >
+            <thead>
+            <tr>
+                <th>pur_no</th><th>pur_date</th>
+            </tr>
+            </thead>
+            <tr>
+                <td>HS7-M0048</td><td>2018-01-01</td>
+            </tr>
+            <tr>
+                <td id="td2">HS7-M0050</td><td>2018-01-12</td>
+            </tr>
+        </table>
+        <br>
+        <input type="button" id="button1" value="表格消失">
+        <input type="button" id="button2" value="表格顯現">
+
+    </form>
+
+</body>
+</html>
+
+
+<script>
+    function aaa() {
+        $("#td2").attr("value","HAHAHA");
+    }
+
+
+
+    $("#button1").on("click",function () {
+        $("table").fadeTo(3000,0.01,aaa)
+
+    })
+    $("#button2").on("click",function () {
+        $("table").fadeTo(3000,1)
+    })
+
+    //$(window).on("resize",hello)
+</script>
+
+<style type="text/css">
+    table,td
+    {
+        background-color:#e5eecc;
+        padding:7px;
+        border:solid 1px #c3c3c3;
+    }
+</style>
