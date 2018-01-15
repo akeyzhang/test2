@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TEST</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav-1">訂單管理
+            <div class="nav-10">
+                <ul>
+                    <li class="nav-11"><a href="www.163.com">訂單資料輸入</a></li>
+                    <li class="nav-12"><a href="#">訂單資料查詢</a></li>
+                    <li class="nav-13">訂單取消資料輸入</li>
+                    <li class="nav-14">訂單取消資料查詢</li>
+                    <li class="nav-15">訂單描述資料</li>
+                    <li class="nav-16">訂單加工訂價</li>
+                    <li class="nav-17">訂單委外加工</li>
+                    <li class="nav-18">訂單單價管理</li>
+                </ul>
+            </div>
+        </div>
+        <div class="nav-2">出貨管理
+            <div class="nav-20">
+                <ul>
+                    <div class="nav-21">出貨管理
+                        <ul class="nav-210">
+                            <li class="nav-211"><a href="2.html">出貨單制作</a></li>
+                            <li class="nav-212">出貨單價管理</li>
+                        </ul>
+                    </div>
+                    <div class="nav-22">暫收/退貨管理
+                        <ul class="nav-220">
+                            <li class="nav-221">暫收單制作</li>
+                            <li class="nav-222">退貨單管理</li>
+                        </ul>
+                    </div>
+                    <div class="nav-23">出貨資料查詢</div>
+                    <div class="nav-24">返修管理
+                        <!--
+                                            <ul class="nav-240">
+                                                <li class="nav-241">暫收單制作</li>
+                                                <li class="nav-242">退貨單管理</li>
+                                                <li class="nav-243">返修送貨資料</li>
+                                                <li class="nav-244">訂單返修資料</li>
+                                                <li class="nav-245">返修出貨發票</li>
+                                            </ul>
+                        -->
+                    </div>
+                    <div class="nav-25">客士啤管理
+                        <!--
+                                            <ul class="nav-250">
+                                                <li class="nav-251">包裝入倉</li>
+                                                <li class="nav-252">營業出倉</li>
+                                                <li class="nav-253">庫存查詢</li>
+                                            </ul>
+                        -->
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <div class="nav-3">需求管理</div>
+        <div class="nav-4">採購管理</div>
+        <div class="nav-5">倉庫管理</div>
+        <div class="nav-6">驗貨管理</div>
+        <div class="nav-7">生產管理</div>
+        <div class="nav-8">發票管理</div>
+        <div class="nav-9">基本管理</div>
+
+    </div>
+</body>
+</html>
+
+<style>
+    .nav div div ul{
+        margin:0;
+        padding: 0;
+    }
+    .nav li{
+        list-style-type: none;
+    }
+    .nav a{
+        color: #fff;
+        text-decoration: none;
+    }
+    .nav{
+        width: 160px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        margin-left: 5px;
+        font-family: 'Microsoft YaHei';
+        border-radius: 4px;
+    }
+    .nav-1,.nav-2,.nav-3,.nav-4,.nav-5,.nav-6,.nav-7,.nav-8,.nav-9{
+        width: 80px;
+        height: 30px;
+        border-bottom: 1px solid #fff;
+        background: grey;
+        text-align: center;
+        line-height: 30px;
+        color: #fff;
+        font-size: 16px;
+        position: relative;
+        cursor: pointer;
+        box-shadow: #666 6px 5px 5px;
+
+    }
+    .nav-10,.nav-20{
+        width: 120px;
+        position: absolute;
+        top:0;
+        left: 80px;
+        background: grey;
+        line-height: 30px;
+        text-align: left;
+        text-shadow: 1px  1px 2px  black;
+        color: #fff;
+        font-size: 14px;
+        margin: 0;
+        padding-left: 5px;
+        display: none;
+        box-shadow: #666 6px 5px 5px;
+
+    }
+    .nav-1:hover div, .nav-2:hover div{
+        display: block;
+    }
+    .nav-21,.nav-22{
+        position: relative;
+        margin: 0;
+        padding: 0;
+    }
+    .nav-210,.nav-220{
+        width: 120px;
+        position: absolute;
+        top:0;
+        left: 120px;
+        //border-bottom: 1px solid #fff;
+        background: grey;
+        line-height: 30px;
+        text-align: left;
+        text-shadow: 1px  1px 2px  black;
+        color: #fff;
+        font-size: 14px;
+        margin: 0;
+        padding: 5px;
+        display: none;
+        box-shadow: 5px 5px 5px #666;
+    }
+    .nav-21:hover ul, .nav-22:hover ul{
+        display: block;
+    }
+    .nav-1 div, .nav-2 div, .nav li{
+        border-bottom: 1px solid black;
+    }
+</style>
