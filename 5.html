@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Websocket</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+    <input id="text1" type="text" value=""/>
+    <input id="button1" type="button" value="發送"/>
+    <br>
+    <input id="text2" type="text" value=""/>
+</body>
+</html>
+
+<script>
+
+
+    $(function () {
+        var wsUrl = "ws://washdiy.top:666/webSocket";
+        var socket = new WebSocket(wsUrl);
+
+        socket.onopen = function (event) {
+            socket.send('I am client!');
+        }
+
+        socket.onmessage = function (event) {
+            console.log("client recived a message",event);
+            var str=event.data;
+            $("#text2").val(str);
+        }
+
+        socket.onclose=function (event) {
+            console.log("client tell you: socket closed!",event);
+        }
+
+        function send() {
+            socket.send($("#text1").val());
+            //alert($("#text1").val());
+        }
+
+        $("#button1").on("click", send);
+
+
+    })
+</script>
+
+<style>
+    #text2{
+        width: 600px;
+    }
+</style>
