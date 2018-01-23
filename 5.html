@@ -20,7 +20,7 @@
 
 
     $(function () {
-        var wsUrl = "ws://washdiy.top:666/webSocket";
+        var wsUrl = "ws://washdiy.top:666/akeySql";
         var socket = new WebSocket(wsUrl);
 
         socket.onopen = function (event) {
@@ -28,7 +28,7 @@
         }
 
         socket.onmessage = function (event) {
-            console.log("client recived a message",event);
+            //console.log("client recived a message",event);
             var str=event.data;
             $("#text2").val(str);
         }

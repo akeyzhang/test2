@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jquery动态绑定datalist数据</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+    <form>
+        <datalist id="schoolList"></datalist>
+        <input id="txtTest" type="text" list="schoolList" />
+        <input id="btnTest" type="button" value="test" />
+
+    </form>
+
+</body>
+</html>
+
+<script>
+    /*
+        var schools=[
+            {'label':'江苏','value':'南京大学'},
+            {'label':'北京','value':'北京大学'},
+            {'label':'北京','value':'清华大学'},
+            {'label':'浙江','value':'浙江大学'},
+            {'label':'上海','value':'复旦大学'},
+            {'label':'湖南','value':'中南大学'},
+            {'label':'广东','value':'中山大学'},
+            {'label':'广东','value':'华南理工大学'}];
+    */
+
+    //var schools=[{"label":"江苏","value":"南京大学"},{"label":"北京","value":"北京大学"},{"label":"北京","value":"清华大学"},{"label":"广东","value":"华南理工大学"}];
+    //var schools=[{"label":"GW1","value":"精度"},{"label":"JF1","value":"富多高"},{"label":"MSG","value":"密思"},{"label":"NR1","value":"樂勤"},{"label":"PST","value":"寶利"}];
+    var schools=[{"cust_no":"GW1","cust_sname":"精度"},{"cust_no":"JF1","cust_sname":"富多高"},{"cust_no":"MSG","cust_sname":"密思"},{"cust_no":"NR1","cust_sname":"樂勤"},{"cust_no":"PST","cust_sname":"寶利"}];
+
+
+
+    $(function () {
+        if (schools.length>0){
+            alert(schools.length)
+            for (var i=0;i<schools.length;i++){
+                var item=schools[i];
+                $('#schoolList').append('<option label="'+item.cust_no+'" value="'+item.cust_sname+'"></option>');
+            }
+        }
+
+        $('#btnTest').on('click',function () {
+            alert($('#txtTest').val());
+        })
+
+    })
+
+
+</script>
