@@ -50,16 +50,21 @@
             console.log("client tell you: socket closed!",event);
         }
 
-        function send() {
-            alert("111");
-            var sqlstr="select cust_no,cust_sname from customer order by cust_no"
-            socket.send(sqlstr);
+        function send(aa,bb) {
+            alert(aa);
+            alert(bb)
+            //var sqlstr="select cust_no,cust_sname from customer order by cust_no"
+            //socket.send(sqlstr);
+        }
+
+        function send1(event) {
+            alert(event.data.name);
+            alert(event.data.age);
         }
 
         $("#delv_date1").val(getCurrentDate());
-        $("#button1").on("click",send);
-
-
+        //$("#button1").on("click",null,"abc","ccc",send1);
+        $("#button1").click({name:"ddd",age:12},send1);
 
 
 
