@@ -40,7 +40,7 @@
 
         socket.onmessage = function (event) {
             //console.log("client recived a message",event);
-            //alert(event.data)
+            alert(event.data)
 /*
             var customers = JSON.parse(event.data);
             if (customers.length > 0) {
@@ -57,15 +57,16 @@
         }
 
         function send(event) {
-            var bkstr = event.data.bkno + "#**#" + event.data.sqlstr;
-            //alert(bkstr);
+            var bkno=guid()
+            var bkstr = bkno + "#**#" + event.data.sqlstr;
+            alert(bkstr);
             socket.send(bkstr);
         }
 
 
         $("#delv_date1").val(getCurrentDate());
         //$("#button1").on("click",null,"abc","ccc",send1);
-        $("#button1").click({bkno: guid(), sqlstr: "select cust_no,cust_sname from customer order by cust_no;"}, send);
+        $("#button1").click({sqlstr: "select cust_no,cust_sname from customer order by cust_no;"}, send);
 
 
     })
