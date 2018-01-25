@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JEXCEL</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script src="js/jquery.jexcel.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="css/jquery.jexcel.css" />
+    <script src="js/jquery.jcalendar.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="css/jquery.jcalendar.css"/>
+
+
+</head>
+<body>
+<div id="mytable">
+
+</div>
+
+</body>
+</html>
+
+<script>
+    $(function () {
+        data = [
+            ['康佳彩電', '2006-01-25', 1807.80],
+            ['標致408', '2018-01-22', 179800.00],
+            ['華為mate10', '2018-01-01', 2338.26],
+        ];
+
+        $('#mytable').jexcel({
+            data: data,
+            colHeaders: ['品牌', '年份', '價格'],
+            colWidths: [300, 100, 100],
+            columns: [
+                {type: 'text'},
+                {type: 'calendar', options: {format: 'YYYY/MM/DD'}},
+                {type: 'numeric'},
+            ]
+        });
+
+        $('#mytable').jexcel('updateSettings',
+            {cells: function (cell, col, row) {
+                if (row%2==0) {
+                $(cell).css('background', '#f6ffe6');
+                }
+            }
+        })
+
+
+    })
+</script>
+

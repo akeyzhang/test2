@@ -1,3 +1,5 @@
+const WSURL = "ws://www.washdiy.top:666/akeySql";
+
 function getCurrentDate() {
     var date = new Date();
     var seperator1 = "-";
