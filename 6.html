@@ -10,7 +10,10 @@
 </head>
 <body>
 <div id="delv2001">
-    <div id="delv_edit">
+    <div id="delv2001_toolbar1">
+        <input type="button" id="button1" value="send"/>
+    </div>
+    <div id="delv2001_main">
         <span id="title1">出 貨 單</span>
         <br><br><br><br>
         出貨單號:<input type="text" name="delv_no" id="delv_no1" value=""/>
@@ -18,13 +21,20 @@
         客 戶:<input type="text" name="cust_no" id="cust_no1" list="delv2001_customerList"/>
         <datalist id="delv2001_customerList"></datalist>
         <br>
-        <input type="button" id="button1" value="send"/>
+    </div><hr>
+    <div id="delv2001_detail">
+
     </div>
+    <br><br><br><br><br>
+    <footer id="delv2001_footer">
+        <span id="fusername">用戶:</span>
+    </footer>
 
 </div>
 </body>
 </html>
 
+<!--  ************************************************************************************* -->
 <script>
     $(function () {
         //var wsUrl = "ws://www.washdiy.top:666/akeySql";
@@ -44,6 +54,9 @@
                         $("#delv2001_customerList").append('<option label="' + item.cust_sname + '" value="' + item.cust_no + '"></option>');
                     }
                 }
+            }
+            if (tag == "delv2001_detail") {
+                alert(resultStr);
             }
 
         }
@@ -70,21 +83,15 @@
 
 
         $("#delv_date1").val(getCurrentDate());
-        //$("#button1").on("click",null,"abc","ccc",send1);
-        $("#button1").click({
-            tag: "delv2001_customerList",
-            sqlstr: "select cust_no,cust_sname from customer order by cust_no;"
-        }, send);
         $("#cust_no1").focusin({
             tag: "delv2001_customerList",
             sqlstr: "select cust_no,cust_sname from customer order by cust_no;"
         }, send)
-/*
-        $("#delv_edit").focusin({
-            tag: "delv2001_customerList",
-            sqlstr: "select cust_no,cust_sname from customer order by cust_no;"
-        }, send)
-*/
+
+        $("#button1").click({
+            tag: "delv2001_detail",
+            sqlstr: "select user_name,user_pass from users order by user_no;"
+        }, send);
 
 
     })
@@ -92,7 +99,15 @@
 
 <style>
     #delv2001 {
-        margin-left: 50px;
+        margin-left: 15%;
+    }
+
+    #fusername{
+        font-size: 9px;
+        color: red;
+        position: absolute;
+        bottom: 5%;
+        right: 30%;
     }
 
     #title1 {
