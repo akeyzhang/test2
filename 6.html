@@ -61,7 +61,8 @@
                 }
             }
             if (tag == "delv2001_detail") {
-                showDetail(JSON.parse(resultStr));
+                //alert(resultStr);
+                showDetail(resultStr);
             }
 
         }
@@ -86,12 +87,15 @@
             socket.send(tagstr);
         }
 
-        function showDetail(datastr) {
+        function showDetail(jsonstr) {
+            var datastr=JSON.parse(trimDateTimeZone(jsonstr));
+
             var rstr="[";
-            for (var i in datastr){
-                rstr+="["
-                for (var key in datastr[i]){
-                    rstr+="'"+datastr[i][key]+"',";
+            var headtile=new Array("delv_no","delv_date","cust_no");
+            for (var row in datastr){
+                rstr+="[";
+                for (var key in headtile) {
+                    rstr+="'"+datastr[row][headtile[key]]+"',";
                 }
                 rstr=rstr.substr(0,rstr.length-1);
                 rstr+="],"
@@ -101,10 +105,11 @@
 
             $('#delv2001_detail').jexcel({
                 data: data,
-                colHeaders: ['用户', '密码'],
-                colWidths: [100, 100],
+                colHeaders: ['出貨單號', '出貨日期','客戶'],
+                colWidths: [100, 100, 50],
                 columns: [
                     {type: 'text'},
+                    {type: 'calendar', options: {format: 'YYYY/MM/DD'}},
                     {type: 'text'},
                 ]
             });
@@ -127,7 +132,7 @@
 
         $("#button1").click({
             tag: "delv2001_detail",
-            sqlstr: "select user_name,user_pass from users order by user_no;"
+            sqlstr: "select delv_no,delv_date,cust_no from delvmain order by delv_date;"
         }, send);
         //$("#button1").click(teststr,showDetail);
 

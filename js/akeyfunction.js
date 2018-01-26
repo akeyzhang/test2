@@ -22,3 +22,8 @@ function guid() {
         return v.toString(16);
     });
 }
+
+//去除掉字串中的T00:00:00Z時區信息,一般用在數據庫返回的日期類型.
+function trimDateTimeZone(str) {
+    return str.replace(new RegExp("T00:00:00Z","gm"),"");
+}
