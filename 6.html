@@ -43,7 +43,6 @@
 <script>
     $(function () {
         var socket = new WebSocket(WSURL);
-        //var teststr =[{"user_name":"akey","user_pass":"akey123"},{"user_name":"zcc","user_pass":"zccpass"},{"user_name":"zxr","user_pass":"123456"},{"user_name":"jhf","user_pass":"jhf123"},{"user_name":"admin","user_pass":"admin"},{"user_name":"test","user_pass":"admin"}];
 
         function messageHandler(tagstr) {
             var tag = tagstr.substring(0, tagstr.indexOf("#**#"));
@@ -173,5 +172,10 @@
         width: 120px;
         margin-right: 20px;
 
+    }
+    #delv2001_detail {
+        height: 200px;
+        width: 600px;
+        overflow: auto;
     }
 </style>

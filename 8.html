@@ -6,23 +6,24 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous"></script>
-    <script type="text/javascript" src="js/akeyfunction.js" ></script>
-    <script type="text/javascript" src="js/jquery.jexcel.js" ></script>
-    <link rel="stylesheet" type="text/css" href="css/jquery.jexcel.css" />
-    <script type="text/javascript" src="js/jquery.jcalendar.js" ></script>
+    <script type="text/javascript" src="js/akeyfunction.js"></script>
+    <script type="text/javascript" src="js/jquery.jexcel.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/jquery.jexcel.css"/>
+    <script type="text/javascript" src="js/jquery.jcalendar.js"></script>
     <link rel="stylesheet" type="text/css" href="css/jquery.jcalendar.css"/>
 </head>
 <body>
+<input type="button" id="button1" value="test"/>
 <div id="mytable">
 
 </div>
-<input type="button" id="button1" value="test"/>
 
 </body>
 </html>
 
 <script>
     $(function () {
+/*
         data = [
             ['康佳彩電', '2006-01-25', 1807.80],
             ['標致408', '2018-01-22', 179800.00],
@@ -41,31 +42,37 @@
         });
 
         $('#mytable').jexcel('updateSettings',
-            {cells: function (cell, col, row) {
-                if (row%2==0) {
-                $(cell).css('background', '#f6ffe6');
+            {
+                cells: function (cell, col, row) {
+                    if (row % 2 == 0) {
+                        $(cell).css('background', '#f6ffe6');
+                    }
                 }
-            }
-        })
+            })
+*/
 
 
         function test() {
-            var jsonData = '[{"cust_no":"CL1","delv_date":"2005-08-08T00:00:00Z","delv_no":"KH0023819"},{"cust_no":"CL1","delv_date":"2005-08-24T00:00:00Z","delv_no":"KH0024044"},{"cust_no":"NR1","delv_date":"2005-08-29T00:00:00Z","delv_no":"KH0024119"},{"cust_no":"EA2","delv_date":"2005-09-04T00:00:00Z","delv_no":"517928"}]';
-            var jsonData=trimDateTimeZone(jsonData);
-            var datastr=eval(jsonData);
+            var jsonData = '[{"cust_no":"CL1","delv_date":"2005-08-08T00:00:00Z","delv_no":"KH0023819"},{"cust_no":"CL1","delv_date":"2005-08-24T00:00:00Z","delv_no":"KH0024044"},{"cust_no":"NR1","delv_date":"2005-08-29T00:00:00Z","delv_no":"KH0024119"},' +
+                '{"cust_no":"EA2","delv_date":"2005-09-04T00:00:00Z","delv_no":"517928"},{"delv_no":"bbb","delv_date":"2018-01-01","cust_no":"KH1"},' +
+                '{"delv_no":"ccc","delv_date":"2018-01-02T00:00:00Z","cust_no":"CL1"},' +
+                '{"delv_no":"ddd","delv_date":"2018-01-02","cust_no":"CL1"},{"delv_no":"eee","delv_date":"2018-01-02","cust_no":"CL1"},' +
+                '{"delv_no":"eee","delv_date":"2018-01-02","cust_no":"CL1"},{"delv_no":"fff","delv_date":"2018-01-05","cust_no":"CL1"},{"delv_no":"ggg","delv_date":"2018-01-02","cust_no":"KH_ENG"}]';
+            var jsonData = trimDateTimeZone(jsonData);
+            var datastr = eval(jsonData);
 
-            var rstr="[";
-            var headtile=new Array("delv_no","delv_date","cust_no");
-            for (var row in datastr){
-                rstr+="[";
+            var rstr = "[";
+            var headtile = new Array("delv_no", "delv_date", "cust_no");
+            for (var row in datastr) {
+                rstr += "[";
                 for (var key in headtile) {
-                    rstr+="'"+datastr[row][headtile[key]]+"',";
+                    rstr += "'" + datastr[row][headtile[key]] + "',";
                 }
-                rstr=rstr.substr(0,rstr.length-1);
-                rstr+="],"
+                rstr = rstr.substr(0, rstr.length - 1);
+                rstr += "],"
             }
-            rstr+="]";
-            var data=eval(rstr);
+            rstr += "]";
+            var data = eval(rstr);
 
             $('#mytable').jexcel({
                 data: data,
@@ -82,10 +89,18 @@
         }
 
 
-
         $("#button1").click(test);
 
 
     })
 </script>
 
+<style>
+    #mytable{
+        display: block;
+        height: 160px;
+        width: 640px;
+        overflow: auto;
+
+    }
+</style>
