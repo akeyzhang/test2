@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>大數據</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div id="div1">
+        <table id="table1" >
+            <thead id="thead1">
+            <tr>
+                <th>ID</th><th>TEXT</th><th>MEMO</th>
+            </tr>
+            </thead>
+    <!--
+            <tr><td>1</td><td>text1</td></tr>
+            <tr><td>2</td><td>text2</td></tr>
+    -->
+        </table>
+    </div>
+
+</body>
+</html>
+
+<script>
+    $(function () {
+        for (i=0;i<80000;i++) {
+            $("#thead1").append('<tr><td>'+i+'</td><td>text'+i+'</td><td>memo'+i+'</td>');
+        }
+    })
+</script>
+
+<style>
+    #div1 {
+        height: 400px;
+        width: 500px;
+        overflow: auto;
+    }
+</style>
