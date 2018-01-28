@@ -6,11 +6,11 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous"></script>
-    <script type="text/javascript" src="js/akeyfunction.js" ></script>
-    <script type="text/javascript" src="js/jquery.jexcel.js" ></script>
-    <link rel="stylesheet" type="text/css" href="css/jquery.jexcel.css" />
-    <script type="text/javascript" src="js/jquery.jcalendar.js" ></script>
-    <link rel="stylesheet" type="text/css" href="css/jquery.jcalendar.css" />
+    <script type="text/javascript" src="js/akeyfunction.js"></script>
+    <script type="text/javascript" src="js/jquery.jexcel.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/jquery.jexcel.css"/>
+    <script type="text/javascript" src="js/jquery.jcalendar.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/jquery.jcalendar.css"/>
 
 </head>
 <body>
@@ -26,7 +26,8 @@
         客 戶:<input type="text" name="cust_no" id="cust_no1" list="delv2001_customerList"/>
         <datalist id="delv2001_customerList"></datalist>
         <br>
-    </div><hr>
+    </div>
+    <hr>
     <div id="delv2001_detail">
 
     </div>
@@ -43,6 +44,8 @@
 <script>
     $(function () {
         var socket = new WebSocket(WSURL);
+
+        //var teststr =[{"user_name":"akey","user_pass":"akey123"},{"user_name":"zcc","user_pass":"zccpass"},{"user_name":"zxr","user_pass":"123456"},{"user_name":"jhf","user_pass":"jhf123"},{"user_name":"admin","user_pass":"admin"},{"user_name":"test","user_pass":"admin"}];
 
         function messageHandler(tagstr) {
             var tag = tagstr.substring(0, tagstr.indexOf("#**#"));
@@ -61,6 +64,7 @@
             }
             if (tag == "delv2001_detail") {
                 //alert(resultStr);
+                console.log("得到返回數據:", getCurrentDateTime());
                 showDetail(resultStr);
             }
 
@@ -83,28 +87,31 @@
         function send(event) {
             var tagstr = event.data.tag + "#**#" + event.data.sqlstr;
             //alert(tagstr);
+            console.log("向後台發送sql語句:", getCurrentDateTime());
             socket.send(tagstr);
         }
 
         function showDetail(jsonstr) {
-            var datastr=JSON.parse(trimDateTimeZone(jsonstr));
+            var datastr = JSON.parse(trimDateTimeZone(jsonstr));
+            console.log("去除時區信息:", getCurrentDateTime());
 
-            var rstr="[";
-            var headtile=new Array("delv_no","delv_date","cust_no");
-            for (var row in datastr){
-                rstr+="[";
+            var rstr = "[";
+            var headtile = new Array("delv_no", "delv_date", "cust_no");
+            for (var row in datastr) {
+                rstr += "[";
                 for (var key in headtile) {
-                    rstr+="'"+datastr[row][headtile[key]]+"',";
+                    rstr += "'" + datastr[row][headtile[key]] + "',";
                 }
-                rstr=rstr.substr(0,rstr.length-1);
-                rstr+="],"
+                rstr = rstr.substr(0, rstr.length - 1);
+                rstr += "],"
             }
-            rstr+="]";
-            var data=eval(rstr);
+            rstr += "]";
+            var data = eval(rstr);
+            console.log("data生成完:", getCurrentDateTime());
 
             $('#delv2001_detail').jexcel({
                 data: data,
-                colHeaders: ['出貨單號', '出貨日期','客戶'],
+                colHeaders: ['出貨單號', '出貨日期', '客戶'],
                 colWidths: [100, 100, 50],
                 columns: [
                     {type: 'text'},
@@ -112,13 +119,17 @@
                     {type: 'text'},
                 ]
             });
+            console.log("表格展示完成:", getCurrentDateTime());
             $('#delv2001_detail').jexcel('updateSettings',
-                {cells: function (cell, col, row) {
-                        if (row%2==0) {
+                {
+                    cells: function (cell, col, row) {
+                        if (row % 2 == 0) {
                             $(cell).css('background', '#f6ffe6');
                         }
                     }
-                })
+                });
+            console.log("最終完成:",getCurrentDateTime());
+
 
         }
 
@@ -131,14 +142,11 @@
 
         $("#button1").click({
             tag: "delv2001_detail",
-            sqlstr: "select delv_no,delv_date,cust_no from delvmain order by delv_date;"
+            sqlstr: "select delv_no,delv_date,cust_no from delvmain where upd_date>='2017-11-01' order by delv_date;"
         }, send);
         //$("#button1").click(teststr,showDetail);
 
         //data=[["aaa","bbb"],["ccc","ddd"],["eee","fff"],];
-
-
-
 
 
     })
@@ -149,7 +157,7 @@
         margin-left: 15%;
     }
 
-    #fusername{
+    #fusername {
         font-size: 9px;
         color: red;
         position: absolute;
@@ -171,10 +179,10 @@
         border-bottom: #000000 1px solid;
         width: 120px;
         margin-right: 20px;
-
     }
+
     #delv2001_detail {
-        height: 200px;
+        height: 400px;
         width: 600px;
         overflow: auto;
     }
