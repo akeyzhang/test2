@@ -6,20 +6,18 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/GridManager.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/GridManager.min.css"/>
+
 
 </head>
 <body>
     <div id="div1">
-        <table id="table1" >
-            <thead id="thead1">
-            <tr>
-                <th>ID</th><th>TEXT</th><th>MEMO</th>
-            </tr>
-            </thead>
-    <!--
-            <tr><td>1</td><td>text1</td></tr>
-            <tr><td>2</td><td>text2</td></tr>
-    -->
+        <input type="button" id="button1" value="test"/>
+    </div>
+    <div id="div2">
+        <table grid-manager="cccc" id="table1">
+
         </table>
     </div>
 
@@ -28,16 +26,142 @@
 
 <script>
     $(function () {
-        for (i=0;i<80000;i++) {
-            $("#thead1").append('<tr><td>'+i+'</td><td>text'+i+'</td><td>memo'+i+'</td>');
+/*        var mydata = {
+            "data":[
+                {"partno":"康佳彩電", "proddate":"2006-01-25", "price":1807.80},
+                {"partno":"標致408", "proddate":"2018-01-22", "price":179800},
+                {"partno":"華為mate10", "proddate":"2018-01-01", "price":2338.26}
+                ],
+            "totals": 3
+        };*/
+        var mydatastr ='['+
+                '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850270-1"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850257-2"},'+
+                '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850258-3"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850259-4"},'+
+                '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850260-5"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850261-6"},'+
+                '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850262-7"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850263-8"},'+
+                '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850264-9"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850265-10"},'+
+                '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850266-11"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850267-12"},'+
+                '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850268-13"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850269-14"},'+
+                '{"cust_no":"MSG","delv_date":"2017-12-03","delv_no":"850273-15"},{"cust_no":"MSG","delv_date":"2017-12-03","delv_no":"850271-16"},'+
+                '{"cust_no":"MSG","delv_date":"2017-12-03","delv_no":"850272-17"},{"cust_no":"GW1","delv_date":"2017-12-04","delv_no":"535545-18"},'+
+                '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850283-19"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850284-20"},'+
+                '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850285-21"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850286-22"},'+
+                '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850287-23"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850288-24"},'+
+                '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850289-25"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850290-26"}]';
+/*
+        var mydata = {"data":[
+                {"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850270B"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850257B"},
+                {"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850258"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850259"},
+                {"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850260"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850261"},
+                {"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850289"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850290"}],
+            "totals":88};
+*/
+        var mydata = getDataByPage(mydatastr,1,10,10);
+
+        function getDataByPage(datastr,cpage,psize,rowcount) {
+            //alert(datastr);
+            var dataArray=JSON.parse(datastr);
+            //var aa=JSON.stringify(dataArray[0]);
+            //alert(aa);
+            var tsize=dataArray.length;
+            //alert(tsize);
+            var pdatastr='{"data":[';
+            for (var i=(cpage-1)*psize;i<(cpage-1)*psize+rowcount;i++) {
+                pdatastr+=JSON.stringify(dataArray[i])+',';
+            }
+            pdatastr = pdatastr.substr(0,pdatastr.length-1);
+            pdatastr+='],"totals":'+tsize+'}';
+            //alert(pdatastr);
+            mydata=JSON.parse(pdatastr);
+            //alert(mydata);
+            return mydata;
+
         }
+
+
+
+        $("#table1").GM({
+            supportRemind: true,
+            height: '400',
+            ajax_data : mydata,
+            disableCache:false,
+            sizeData: [5,10,15,20,30],
+            pageSize:5,
+            supportAjaxPage:true,
+            supportSorting:true,
+            columnData: [{
+                key: 'delv_no',
+                remind: 'the delv_no',
+                sorting: '',
+                width: '100px',
+                text: '出货单号'
+            },{
+                key: 'delv_date',
+                remind: 'the delv_date',
+                sorting: 'up',
+                width: '100px',
+                text: '出货日期'
+            },{
+                key: 'cust_no',
+                remind: 'the cust_no',
+                sorting: '',
+                width: '60px',
+                text: '客户'
+            }],
+            pagingAfter: function(query){
+                //alert(query.cPage);
+                //test();
+                var rowcount;
+/*                if (query.tSize<query.pSize) {
+                    psize=query.tSize;
+                } else {
+                    psize=query.pSize;
+                }*/
+                if (query.cPage==query.tPage) {      //当前为最后一页.
+                    rowcount=query.tSize%query.pSize;
+                } else {
+                    rowcount=query.pSize;
+                }
+                $("#table1").GM('setAjaxData',getDataByPage(mydatastr,query.cPage,query.pSize,rowcount));
+                console.log('Event: 分页后', query);
+            },
+            ajax_success: function(data){
+                console.log('Event: ajax_success', data);
+            }
+        })
+
+
+        function test() {
+            //alert(mydatastr);
+            $("#table1").GM('setAjaxData',getDataByPage(mydatastr,1,10,10));
+            //getDataByPage(mydata,1,10);
+
+
+        }
+
+        function test1() {
+            var bb=[{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850270B"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850257B"}];
+            //var bb=[{'cust_no':'MSG','delv_date':'2017-11-30','delv_no':'850270B'},{'cust_no':'MSG','delv_date':'2017-11-30','delv_no':'850257B'}];
+            var cstr=JSON.stringify(bb[0]);
+            alert(cstr);
+
+        }
+
+        $("#button1").click(test);
+
+
+
+
     })
 </script>
 
 <style>
-    #div1 {
-        height: 400px;
-        width: 500px;
+/*
+    #div2 {
+        height: 200px;
+        width: 800px;
         overflow: auto;
     }
+*/
 </style>
+
