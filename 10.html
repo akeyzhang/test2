@@ -163,10 +163,9 @@
         // 执行删除操作
         if(window.confirm('确认要删除出貨單號: ['+rowData.delv_no+']?')){
             //window.alert('当然这只是个示例,并不会真实删除,要不然每天我每天就光填demo数据了.');
-            alert(tr.rowIndex);
-            var tb = document.getElementById("table1");
-            tb.deleteRow(rowIndex);//删除当前行
-            //$("#table1").deleteRow(tr.rowIndex);
+            //var tb = document.getElementById("table1");
+            //tb.deleteRow(tr.rowIndex);
+            $("#table1").get(0).deleteRow(tr.rowIndex);
         }
     }
 
