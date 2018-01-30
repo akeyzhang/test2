@@ -24,6 +24,7 @@
 </body>
 </html>
 
+
 <script>
     $(function () {
 /*        var mydata = {
@@ -35,8 +36,8 @@
             "totals": 3
         };*/
         var mydatastr ='['+
-                '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850270-1"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850257-2"},'+
-                '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850258-3"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850259-4"},'+
+                '{"cust_no":"MSG","delv_date":"2017-10-30","delv_no":"850270-1"},{"cust_no":"MSG","delv_date":"2017-11-20","delv_no":"850257-2"},'+
+                '{"cust_no":"MSG","delv_date":"2017-12-30","delv_no":"850258-3"},{"cust_no":"MSG","delv_date":"2017-12-20","delv_no":"850259-4"},'+
                 '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850260-5"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850261-6"},'+
                 '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850262-7"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850263-8"},'+
                 '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850264-9"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850265-10"},'+
@@ -98,25 +99,26 @@
             },{
                 key: 'delv_date',
                 remind: 'the delv_date',
-                sorting: 'up',
+                sorting: 'DESC',
                 width: '100px',
-                text: '出货日期'
-            },{
+                text: '出货日期',
+            }, {
                 key: 'cust_no',
                 remind: 'the cust_no',
                 sorting: '',
                 width: '60px',
-                text: '客户'
-            }],
+                text: '客戶',
+                template: function (action, rowObject) {  //operation:当前key所对应的单条数据；rowObject：单个一行完整数据
+                    return '<span class="plugin-action del-action" onclick="delectRowData(this)" learnLink-id="'+rowObject.id+'">删除</span>';
+                }
+            }
+            ],
+
             pagingAfter: function(query){
                 //alert(query.cPage);
                 //test();
                 var rowcount;
-/*                if (query.tSize<query.pSize) {
-                    psize=query.tSize;
-                } else {
-                    psize=query.pSize;
-                }*/
+
                 if (query.cPage==query.tPage) {      //当前为最后一页.
                     rowcount=query.tSize%query.pSize;
                 } else {
@@ -124,35 +126,52 @@
                 }
                 $("#table1").GM('setAjaxData',getDataByPage(mydatastr,query.cPage,query.pSize,rowcount));
                 console.log('Event: 分页后', query);
-            },
-            ajax_success: function(data){
-                console.log('Event: ajax_success', data);
             }
-        })
+        });
 
 
-        function test() {
-            //alert(mydatastr);
-            $("#table1").GM('setAjaxData',getDataByPage(mydatastr,1,10,10));
-            //getDataByPage(mydata,1,10);
 
 
-        }
 
         function test1() {
-            var bb=[{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850270B"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850257B"}];
-            //var bb=[{'cust_no':'MSG','delv_date':'2017-11-30','delv_no':'850270B'},{'cust_no':'MSG','delv_date':'2017-11-30','delv_no':'850257B'}];
+            /*var bb=[{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850270B"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850257B"}];
             var cstr=JSON.stringify(bb[0]);
-            alert(cstr);
+            alert(cstr);*/
+            alert(222);
 
         }
 
+        //$("#button1").click(test3);
         $("#button1").click(test);
 
 
-
-
     })
+
+    function test() {
+        //alert(111);
+        $("#table1").GM('setAjaxData',getDataByPage(mydatastr,2,10,10));
+        //getDataByPage(mydata,1,10);
+    }
+
+    // 删除功能
+    function delectRowData(node){
+        // 获取到当前的tr node
+        var tr = node.parentNode.parentNode;
+        // 获取到当前渲染tr 所使用的数据
+        //var rowData = document.querySelector('table').GM('getRowData', tr);
+        var rowData = $("#table1").GM('getRowData',tr);
+        // 执行删除操作
+        if(window.confirm('确认要删除出貨單號: ['+rowData.delv_no+']?')){
+            //window.alert('当然这只是个示例,并不会真实删除,要不然每天我每天就光填demo数据了.');
+            alert(tr.rowIndex);
+            var tb = document.getElementById("table1");
+            tb.deleteRow(rowIndex);//删除当前行
+            //$("#table1").deleteRow(tr.rowIndex);
+        }
+    }
+
+
+
 </script>
 
 <style>
@@ -163,5 +182,15 @@
         overflow: auto;
     }
 */
+    .plugin-action{
+        display: inline-block;
+        color: steelblue;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+    .plugin-action:hover{
+        text-decoration:underline;
+    }
+
 </style>
 

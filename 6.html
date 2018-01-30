@@ -115,9 +115,9 @@
 
         function showDetail(jsonstr) {
             //alert(jsonstr);
-/*
-            jsonstr=trimDateTimeZone(jsonstr);
-            var dataArray = JSON.parse(jsonstr);
+            //jsonstr=trimDateTimeZone(jsonstr);
+            //console.log("去除時區信息:", getCurrentDateTime());
+/*            var dataArray = JSON.parse(jsonstr);
             var icount=dataArray.length;
 
             console.log("去除時區信息:", getCurrentDateTime());
@@ -145,8 +145,10 @@
             var pagedata=getDataByPage(jsonstr,1,20,20);
             $("#table1").GM({
                 supportRemind: true,
+                supportSorting: true,
+                supportAutoOrder: false,
                 height: '400px',
-                width: '800px',
+                width: '400px',
                 ajax_data : pagedata,
                 sizeData: [20,50,100,200,500],
                 pageSize:100,
@@ -162,14 +164,33 @@
                     remind: 'the delv_date',
                     sorting: 'up',
                     width: '100px',
-                    text: '出货日期'
-                },{
+                    text: '出货日期',
+                    sorting: 'DESC',
+                    template: function(delv_date, rowObject) {
+                        return new Date(delv_date).toLocaleDateString();
+                    }
+                }, {
                     key: 'cust_no',
                     remind: 'the cust_no',
                     sorting: '',
                     width: '100px',
-                    text: '客户'
-                }],
+                    text: '客戶',
+                    template: function (operation, rowObject) {  //operation:当前key所对应的单条数据；rowObject：单个一行完整数据
+                        return '<a href=javascript:alert("这是一个按纽");>' + operation + '</a>';
+                    }
+                }
+                    /*
+                    {
+                    key: 'operation',
+                    remind: 'the operation',
+                    sorting: '',
+                    width: '100px',
+                    text: 'operation',
+                    template: function(operation, rowObject){  //operation:当前key所对应的单条数据；rowObject：单个一行完整数据
+                        return '<a href=javascript:alert("这是一个按纽");>'+operation+'</a>';
+                    }
+*/
+                ],
                 pagingAfter: function(query){
                     var rowcount;
                     if (query.cPage==query.tPage) {      //当前为最后一页.
@@ -193,7 +214,7 @@
 
         $("#button1").click({
             tag: "delv2001_detail",
-            sqlstr: "select delv_no,delv_date,cust_no from delvmain where upd_date>='2002-01-01' order by delv_date;"
+            sqlstr: "select delv_no,delv_date,cust_no from delvmain where upd_date>='2002-01-01' order by delv_date"
         }, send);
         //$("#button1").click(teststr,showDetail);
 
@@ -232,11 +253,13 @@
         margin-right: 20px;
     }
 
+/*
     #delv2001_detail {
         height: 400px;
         width: 800px;
         overflow: auto;
     }
+*/
     #text1 {
         width: 600px;
     }
