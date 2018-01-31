@@ -13,7 +13,8 @@
 </head>
 <body>
     <div id="div1">
-        <input type="button" id="button1" value="test"/>
+        <input type="button" id="button1" value="delete"/>
+        <input type="button" id="button2" value="refresh"/>
     </div>
     <div id="div2">
         <table grid-manager="cccc" id="table1">
@@ -26,6 +27,25 @@
 
 
 <script>
+    var mydatastr ='['+
+        '{"cust_no":"MSG","delv_date":"2017-10-30","delv_no":"850270-1"},{"cust_no":"MSG","delv_date":"2017-11-20","delv_no":"850257-2"},'+
+        '{"cust_no":"MSG","delv_date":"2017-12-30","delv_no":"850258-3"},{"cust_no":"MSG","delv_date":"2017-12-20","delv_no":"850259-4"},'+
+        '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850260-5"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850261-6"},'+
+        '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850262-7"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850263-8"},'+
+        '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850264-9"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850265-10"},'+
+        '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850266-11"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850267-12"},'+
+        '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850268-13"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850269-14"},'+
+        '{"cust_no":"MSG","delv_date":"2017-12-03","delv_no":"850273-15"},{"cust_no":"MSG","delv_date":"2017-12-03","delv_no":"850271-16"},'+
+        '{"cust_no":"MSG","delv_date":"2017-12-03","delv_no":"850272-17"},{"cust_no":"GW1","delv_date":"2017-12-04","delv_no":"535545-18"},'+
+        '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850283-19"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850284-20"},'+
+        '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850285-21"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850286-22"},'+
+        '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850287-23"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850288-24"},'+
+        '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850289-25"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850290-26"}]';
+    var arr_delData = [];
+    var currentPageno=1;
+    var currentPagesize=10;
+    var mydata = getDataByPage(mydatastr,1,5,5);
+
     $(function () {
 /*        var mydata = {
             "data":[
@@ -35,51 +55,6 @@
                 ],
             "totals": 3
         };*/
-        var mydatastr ='['+
-                '{"cust_no":"MSG","delv_date":"2017-10-30","delv_no":"850270-1"},{"cust_no":"MSG","delv_date":"2017-11-20","delv_no":"850257-2"},'+
-                '{"cust_no":"MSG","delv_date":"2017-12-30","delv_no":"850258-3"},{"cust_no":"MSG","delv_date":"2017-12-20","delv_no":"850259-4"},'+
-                '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850260-5"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850261-6"},'+
-                '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850262-7"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850263-8"},'+
-                '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850264-9"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850265-10"},'+
-                '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850266-11"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850267-12"},'+
-                '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850268-13"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850269-14"},'+
-                '{"cust_no":"MSG","delv_date":"2017-12-03","delv_no":"850273-15"},{"cust_no":"MSG","delv_date":"2017-12-03","delv_no":"850271-16"},'+
-                '{"cust_no":"MSG","delv_date":"2017-12-03","delv_no":"850272-17"},{"cust_no":"GW1","delv_date":"2017-12-04","delv_no":"535545-18"},'+
-                '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850283-19"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850284-20"},'+
-                '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850285-21"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850286-22"},'+
-                '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850287-23"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850288-24"},'+
-                '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850289-25"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850290-26"}]';
-/*
-        var mydata = {"data":[
-                {"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850270B"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850257B"},
-                {"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850258"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850259"},
-                {"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850260"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850261"},
-                {"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850289"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850290"}],
-            "totals":88};
-*/
-        var mydata = getDataByPage(mydatastr,1,10,10);
-
-        function getDataByPage(datastr,cpage,psize,rowcount) {
-            //alert(datastr);
-            var dataArray=JSON.parse(datastr);
-            //var aa=JSON.stringify(dataArray[0]);
-            //alert(aa);
-            var tsize=dataArray.length;
-            //alert(tsize);
-            var pdatastr='{"data":[';
-            for (var i=(cpage-1)*psize;i<(cpage-1)*psize+rowcount;i++) {
-                pdatastr+=JSON.stringify(dataArray[i])+',';
-            }
-            pdatastr = pdatastr.substr(0,pdatastr.length-1);
-            pdatastr+='],"totals":'+tsize+'}';
-            //alert(pdatastr);
-            mydata=JSON.parse(pdatastr);
-            //alert(mydata);
-            return mydata;
-
-        }
-
-
 
         $("#table1").GM({
             supportRemind: true,
@@ -107,69 +82,99 @@
                 remind: 'the cust_no',
                 sorting: '',
                 width: '60px',
-                text: '客戶',
-                template: function (action, rowObject) {  //operation:当前key所对应的单条数据；rowObject：单个一行完整数据
-                    return '<span class="plugin-action del-action" onclick="delectRowData(this)" learnLink-id="'+rowObject.id+'">删除</span>';
-                }
+                text: '客戶'
             }
             ],
-
             pagingAfter: function(query){
-                //alert(query.cPage);
-                //test();
-                var rowcount;
+                var rowcount=query.pSize;
+                //alert("tPage:"+query.tPage);
 
                 if (query.cPage==query.tPage) {      //当前为最后一页.
-                    rowcount=query.tSize%query.pSize;
-                } else {
-                    rowcount=query.pSize;
+                    if (query.tSize % query.pSize > 0) {
+                        rowcount = query.tSize % query.pSize;
+                    }
                 }
-                $("#table1").GM('setAjaxData',getDataByPage(mydatastr,query.cPage,query.pSize,rowcount));
-                console.log('Event: 分页后', query);
+                //alert("cpage:"+query.cPage+"  psize:"+query.pSize+" rowcount:"+rowcount);
+                $("#table1")[0].GM('setAjaxData',getDataByPage(mydatastr,query.cPage,query.pSize,rowcount));
+                currentPageno = query.cPage;
+                currentPagesize = query.pSize;
             }
         });
 
 
 
 
-
-        function test1() {
-            /*var bb=[{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850270B"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850257B"}];
-            var cstr=JSON.stringify(bb[0]);
-            alert(cstr);*/
-            alert(222);
-
-        }
-
-        //$("#button1").click(test3);
-        $("#button1").click(test);
-
-
     })
 
-    function test() {
-        //alert(111);
-        $("#table1").GM('setAjaxData',getDataByPage(mydatastr,2,10,10));
-        //getDataByPage(mydata,1,10);
+    //分頁取數據.
+    function getDataByPage(datastr,cpage,psize,rowcount) {  //datastr 原始json字串(不帶data頭和totals尾),//cpage跳轉的頁,psize每頁行數,rowcount顯示的行數,有可能是末頁會小於psize.
+        var dataArray=JSON.parse(datastr);
+        var tsize=dataArray.length;
+        //alert(tsize);
+        var pdatastr='{"data":[';
+        for (var i=(cpage-1)*psize;i<(cpage-1)*psize+rowcount;i++) {
+            pdatastr+=JSON.stringify(dataArray[i])+',';       //stringify將數組元素轉換成字串.
+        }
+        pdatastr = pdatastr.substr(0,pdatastr.length-1);
+        pdatastr+='],"totals":'+tsize+'}';
+        //alert(pdatastr);
+        mydata=JSON.parse(pdatastr);
+        //alert(mydata);
+        return mydata;
+
     }
+
+
+
+    function test() {
+        var arr_mydata=JSON.parse(mydatastr);
+        arr_mydata.splice(4,1);
+        arr_mydata.splice(1,1);
+        mydatastr=JSON.stringify(arr_mydata)
+        //alert(mydatastr);
+    }
+
 
     // 删除功能
-    function delectRowData(node){
-        // 获取到当前的tr node
-        var tr = node.parentNode.parentNode;
-        // 获取到当前渲染tr 所使用的数据
-        //var rowData = document.querySelector('table').GM('getRowData', tr);
-        var rowData = $("#table1").GM('getRowData',tr);
-        // 执行删除操作
-        if(window.confirm('确认要删除出貨單號: ['+rowData.delv_no+']?')){
-            //window.alert('当然这只是个示例,并不会真实删除,要不然每天我每天就光填demo数据了.');
-            //var tb = document.getElementById("table1");
-            //tb.deleteRow(tr.rowIndex);
-            $("#table1").get(0).deleteRow(tr.rowIndex);
+    function deleteData() {
+        //刪除所選的行.
+        var tr=$("#table1")[0].GM('getCheckedTr');
+        //for (var i=0;i<tr.length;i++){
+        var arr_mydata=JSON.parse(mydatastr);
+        //alert(arr_mydata.length);
+        arr_delData = [];
+        for (var i=tr.length-1;i>=0;i--) {
+            //alert(currentPagesize);
+            var pos = (currentPageno-1)*currentPagesize+tr[i].rowIndex-1;
+            //alert(tr[i].rowIndex);
+            //刪除表格的一行數據.
+            $("#table1")[0].deleteRow(tr[i].rowIndex);
+            //將要刪除的arr_mydat元素復制到arr_delData數組中,供後面生成刪除的sql語句使用.
+            arr_delData.push(arr_mydata[pos]);
+            //從arr_mydata數組中刪除pos下標的元素.
+            arr_mydata.splice(pos,1);
         }
+        mydatastr=JSON.stringify(arr_mydata);
+        //alert(mydatastr);
+        alert(JSON.stringify(arr_delData));
+        $("#table1")[0].GM('setAjaxData',getDataByPage(mydatastr,currentPageno,5,5));
+
     }
 
+    function genDelSqlstr() {
+        //var arr_delData= [{"cust_no":"MSG","delv_date":"2017-10-30","delv_no":"850270-1"},{"cust_no":"MSG","delv_date":"2017-11-20","delv_no":"850257-2"}];
+        //alert(arr_delData[1].delv_no);
+        var sqlstr="delete from delvmain where "
+        for (var i=0;i<arr_delData.length;i++) {
+            sqlstr+="(delv_no='"+arr_delData[i].delv_no+"') or ";
+        }
+        sqlstr=sqlstr.substr(0,sqlstr.length-3);
+        alert(sqlstr);
 
+    }
+
+    $("#button1").click(deleteData);
+    $("#button2").click(genDelSqlstr);
 
 </script>
 
