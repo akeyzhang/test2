@@ -223,8 +223,10 @@
         }
         tbdatastr=JSON.stringify(arr_mydata);
         //alert(tbdatastr);
-        alert(JSON.stringify(arr_delData));
+        //alert(JSON.stringify(arr_delData));
         $("#table1")[0].GM('setAjaxData',getDataByPage(tbdatastr,currentPageno,_PAGESIZE));
+        var sqlstr=genDelSqlstr();
+        socket.send("delv2001_detail#**#"+sqlstr);
 
     }
 
@@ -237,7 +239,8 @@
             sqlstr+="(delv_no='"+arr_delData[i].delv_no+"') or ";
         }
         sqlstr=sqlstr.substr(0,sqlstr.length-3);
-        alert(sqlstr);
+        //alert(sqlstr);
+        return sqlstr;
 
     }
 
@@ -253,10 +256,9 @@
 
     $("#button1").click({
         tag: "delv2001_detail",
-        sqlstr: "select delv_no,delv_date,cust_no from delvmain where upd_date>='2016-11-30' order by delv_date"
+        sqlstr: "select delv_no,delv_date,cust_no from delvmain where upd_date>='2002-11-30' order by delv_date"
     }, send);
     $("#button2").click(deleteData);
-    $("#button3").click(genDelSqlstr);
 
 </script>
 
