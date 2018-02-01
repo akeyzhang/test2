@@ -17,23 +17,25 @@
 </head>
 <body>
 <div id="delv2001">
-    <div id="delv2001_toolbar1">
-        <input type="button" id="button1" value="send"/>
-        <input type="button" id="button2" value="delete"/>
-        <input type="button" id="button3" value="生成delete語句"/>
-    </div>
     <div id="delv2001_main">
         <span id="title1">出 貨 單</span>
         <br><br><br><br>
-        出貨單號:<input type="text" name="delv_no" id="delv_no1" value=""/>
-        出貨日期:<input type="date" name="delv_date" id="delv_date1" value=""/>
-        客 戶:<input type="text" name="cust_no" id="cust_no1" list="delv2001_customerList"/>
-        <datalist id="delv2001_customerList"></datalist>
-        <br>
+        <div id="delv2001_toolbar1">
+            <input type="button" id="button1" value="send"/>
+            <input type="button" id="button2" value="delete"/>
+            <input type="button" id="button3" value="生成delete語句"/>
+        </div>
+        <table grid-manager="aaa" id="table1"></table>
+        <div id="delv2001_insert">
+            出貨單號:<input type="text" name="delv_no" id="delv_no1" value=""/>
+            出貨日期:<input type="date" name="delv_date" id="delv_date1" value=""/>
+            客 戶:<input type="text" name="cust_no" id="cust_no1" list="delv2001_customerList"/>
+            <datalist id="delv2001_customerList"></datalist>
+        </div>
     </div>
     <hr>
     <div id="delv2001_detail">
-        <table grid-manager="aaa" id="table1"></table>
+
 
     </div>
     <br><br><br><br><br>
@@ -53,7 +55,7 @@
     var currentPagesize=10;
     var tbdatastr="";
     var pagedata=[];
-    var _PAGESIZE=15;
+    var _PAGESIZE=6;
 
 
     $(function () {
@@ -76,7 +78,8 @@
             supportSorting: true,
             //supportAutoOrder: false,
             disableCache: true,
-            height: '400',
+            height: '200px',
+            width: '200px',
             ajax_data : pagedata,
             sizeData: [10,15,50],
             pageSize:_PAGESIZE,
@@ -279,7 +282,7 @@
         font-size: 32px;
         alignment: center;
         position: absolute;
-        left: 40%;
+        left: 50%;
         text-decoration: underline;
     }
 
@@ -289,6 +292,9 @@
         border-bottom: #000000 1px solid;
         width: 120px;
         margin-right: 20px;
+    }
+    #delv2001_insert {
+        display: none;
     }
 
 

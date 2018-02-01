@@ -14,7 +14,7 @@
 <body>
     <div id="div1">
         <input type="button" id="button1" value="delete"/>
-        <input type="button" id="button2" value="refresh"/>
+        <input type="button" id="button2" value="test"/>
     </div>
     <br><br><br><br><br><br>
     <div id="div2">
@@ -22,11 +22,6 @@
 
         </table>
     </div>
-    <br><br><br><br><br>
-    <footer id="delv2001_footer">
-        <span id="fusername">用戶:</span>
-    </footer>
-
 
 </body>
 </html>
@@ -59,6 +54,7 @@
     var currentPageno=1;
     var currentPagesize=10;
     var mydata=[];
+    var _PAGESIZE=20;
 
     $(function () {
 /*        var mydata = {
@@ -73,10 +69,10 @@
         $("#table1").GM({
             supportRemind: true,
             ajax_data : mydata,
-            height: 400,
+            height: '300px',
             disableCache:false,
             sizeData: [5,10,15,20,30],
-            pageSize:20,
+            pageSize:_PAGESIZE,
             supportAjaxPage:true,
             supportSorting:true,
             columnData: [{
@@ -118,7 +114,7 @@
             }
         });
 
-        $("#button2").click();
+        $("#table1")[0].GM('setAjaxData',getDataByPage(mydatastr,1,_PAGESIZE));
 
 
     })
@@ -144,23 +140,11 @@
     }
 
 
-
-    function test() {
-        var arr_mydata=JSON.parse(mydatastr);
-        if (arr_mydata[25]==undefined){
-            alert(111);
-        }
-        //arr_mydata.splice(4,1);
-        //arr_mydata.splice(1,1);
-        //mydatastr=JSON.stringify(arr_mydata)
-        //alert(mydatastr);
-    }
-
-
     // 删除功能
     function deleteData() {
         //刪除所選的行.
         var tr=$("#table1")[0].GM('getCheckedTr');
+        console.log(tr[0]);
         //for (var i=0;i<tr.length;i++){
         var arr_mydata=JSON.parse(mydatastr);
         //alert(arr_mydata.length);
@@ -179,7 +163,7 @@
         mydatastr=JSON.stringify(arr_mydata);
         alert(mydatastr);
         alert(JSON.stringify(arr_delData));
-        $("#table1")[0].GM('setAjaxData',getDataByPage(mydatastr,currentPageno,20));
+        $("#table1")[0].GM('setAjaxData',getDataByPage(mydatastr,currentPageno,_PAGESIZE));
 
     }
 
@@ -195,11 +179,23 @@
 
     }
 
+    function test() {
+        var tr=$("#table1")[0].GM('getCheckedTr');
+        alert(tr[0].rowIndex);
+    }
+
+    function test1() {
+        var data=[];
+        $("#table1").find(":checkbox:checked").each(function(){
+            var val = $(this).parent().next().text();
+            //var val=$(this).parent().parent();
+            console.log(val);
+            data.push(val);
+            alert(data[0]);
+        });
+    }
     $("#button1").click(deleteData);
-    $("#button2").click(function () {
-        //mydata= getDataByPage(mydatastr,1,20)
-        $("#table1")[0].GM('setAjaxData',getDataByPage(mydatastr,1,20));
-    });
+    $("#button2").click(test1);
 
 </script>
 
