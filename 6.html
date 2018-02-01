@@ -106,15 +106,7 @@
             }
             ],
             pagingAfter: function(query){
-                var rowcount=query.pSize;
-                //alert(query.tPage);
-                if (query.cPage==query.tPage) {      //当前为最后一页.
-                    if (query.tSize % query.pSize > 0) {
-                        rowcount = query.tSize % query.pSize;
-                    }
-                }
-                //alert("cpage:"+query.cPage+"  psize:"+query.pSize+" rowcount:"+rowcount);
-                $("#table1")[0].GM('setAjaxData',getDataByPage(tbdatastr,query.cPage,query.pSize,rowcount));
+                $("#table1")[0].GM('setAjaxData',getDataByPage(tbdatastr,query.cPage,query.pSize));
                 currentPageno = query.cPage;
                 currentPagesize = query.pSize;
             }
@@ -157,7 +149,7 @@
         console.log("data的size:", jsonstr.length);
 
         //pagedata=getDataByPage(jsonstr,1,20,20);
-        $("#table1")[0].GM('setAjaxData',getDataByPage(tbdatastr,1,20,20));
+        $("#table1")[0].GM('setAjaxData',getDataByPage(tbdatastr,1,20));
         console.log("表格展示完成:", getCurrentDateTime());
     }
 
@@ -193,12 +185,14 @@
     }
 
     //分頁取數據.
-    function getDataByPage(datastr,cpage,psize,rowcount) {//datastr 原始json字串(不帶data頭和totals尾),//cpage跳轉的頁,psize每頁行數,rowcount顯示的行數,有可能是末頁會小於psize.
+    function getDataByPage(datastr,cpage,psize) {//datastr 原始json字串(不帶data頭和totals尾),//cpage跳轉的頁,psize每頁行數,rowcount顯示的行數,有可能是末頁會小於psize.
         var dataArray=JSON.parse(datastr);
         var tsize=dataArray.length;
         var pdatastr='{"data":[';
-        for (var i=(cpage-1)*psize;i<(cpage-1)*psize+rowcount;i++) {
-            pdatastr+=JSON.stringify(dataArray[i])+',';    //stringify將數組元素轉換成字串.
+        for (var i=(cpage-1)*psize;i<(cpage-1)*psize+psize;i++) {
+            if (dataArray[i] != undefined) {
+                pdatastr+=JSON.stringify(dataArray[i])+',';    //stringify將數組元素轉換成字串.
+            }
         }
         pdatastr = pdatastr.substr(0,pdatastr.length-1);
         pdatastr+='],"totals":'+tsize+'}';
@@ -230,14 +224,15 @@
         tbdatastr=JSON.stringify(arr_mydata);
         //alert(tbdatastr);
         alert(JSON.stringify(arr_delData));
-        $("#table1")[0].GM('setAjaxData',getDataByPage(tbdatastr,currentPageno,20,20));
+        $("#table1")[0].GM('setAjaxData',getDataByPage(tbdatastr,currentPageno,20));
 
     }
 
     function genDelSqlstr() {
-        //var arr_delData= [{"cust_no":"MSG","delv_date":"2017-10-30","delv_no":"850270-1"},{"cust_no":"MSG","delv_date":"2017-11-20","delv_no":"850257-2"}];
-        //alert(arr_delData[1].delv_no);
-        var sqlstr="delete from delvmain where "
+        var sqlstr="";
+        if (arr_delData.length>0) {
+            sqlstr="delete from delvmain where "
+        }
         for (var i=0;i<arr_delData.length;i++) {
             sqlstr+="(delv_no='"+arr_delData[i].delv_no+"') or ";
         }

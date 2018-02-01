@@ -44,7 +44,7 @@
     var arr_delData = [];
     var currentPageno=1;
     var currentPagesize=10;
-    var mydata = getDataByPage(mydatastr,1,5,5);
+    var mydata = getDataByPage(mydatastr,1,20);
 
     $(function () {
 /*        var mydata = {
@@ -62,7 +62,7 @@
             ajax_data : mydata,
             disableCache:false,
             sizeData: [5,10,15,20,30],
-            pageSize:5,
+            pageSize:20,
             supportAjaxPage:true,
             supportSorting:true,
             columnData: [{
@@ -87,15 +87,19 @@
             ],
             pagingAfter: function(query){
                 var rowcount=query.pSize;
-                //alert("tPage:"+query.tPage);
-
+                alert("cpage:"+query.cPage+"   tpage:"+query.tPage+"  psize:"+query.pSize+"   tsize:"+query.tSize);
+                /*if (query.cPage==1) {               //當前頁為第一頁.
+                    if (query.tSize<query.pSize) {
+                        rowcount=query.tSize;
+                    }
+                }
                 if (query.cPage==query.tPage) {      //当前为最后一页.
                     if (query.tSize % query.pSize > 0) {
                         rowcount = query.tSize % query.pSize;
                     }
                 }
-                //alert("cpage:"+query.cPage+"  psize:"+query.pSize+" rowcount:"+rowcount);
-                $("#table1")[0].GM('setAjaxData',getDataByPage(mydatastr,query.cPage,query.pSize,rowcount));
+                alert("cpage:"+query.cPage+"   tpage:"+query.tPage+"  psize:"+query.pSize+"   tsize:"+query.tSize+"   rowcount:"+rowcount);*/
+                $("#table1")[0].GM('setAjaxData',getDataByPage(mydatastr,query.cPage,query.pSize));
                 currentPageno = query.cPage;
                 currentPagesize = query.pSize;
             }
@@ -107,13 +111,15 @@
     })
 
     //分頁取數據.
-    function getDataByPage(datastr,cpage,psize,rowcount) {  //datastr 原始json字串(不帶data頭和totals尾),//cpage跳轉的頁,psize每頁行數,rowcount顯示的行數,有可能是末頁會小於psize.
+    function getDataByPage(datastr,cpage,psize) {  //datastr 原始json字串(不帶data頭和totals尾),//cpage跳轉的頁,psize每頁行數,rowcount顯示的行數,有可能是末頁會小於psize.
         var dataArray=JSON.parse(datastr);
         var tsize=dataArray.length;
         //alert(tsize);
         var pdatastr='{"data":[';
-        for (var i=(cpage-1)*psize;i<(cpage-1)*psize+rowcount;i++) {
-            pdatastr+=JSON.stringify(dataArray[i])+',';       //stringify將數組元素轉換成字串.
+        for (var i=(cpage-1)*psize;i<(cpage-1)*psize+psize;i++) {
+            if (dataArray[i] != undefined) {
+                pdatastr+=JSON.stringify(dataArray[i])+',';       //stringify將數組元素轉換成字串.
+            }
         }
         pdatastr = pdatastr.substr(0,pdatastr.length-1);
         pdatastr+='],"totals":'+tsize+'}';
@@ -128,9 +134,12 @@
 
     function test() {
         var arr_mydata=JSON.parse(mydatastr);
-        arr_mydata.splice(4,1);
-        arr_mydata.splice(1,1);
-        mydatastr=JSON.stringify(arr_mydata)
+        if (arr_mydata[25]==undefined){
+            alert(111);
+        }
+        //arr_mydata.splice(4,1);
+        //arr_mydata.splice(1,1);
+        //mydatastr=JSON.stringify(arr_mydata)
         //alert(mydatastr);
     }
 
@@ -155,9 +164,9 @@
             arr_mydata.splice(pos,1);
         }
         mydatastr=JSON.stringify(arr_mydata);
-        //alert(mydatastr);
+        alert(mydatastr);
         alert(JSON.stringify(arr_delData));
-        $("#table1")[0].GM('setAjaxData',getDataByPage(mydatastr,currentPageno,5,5));
+        $("#table1")[0].GM('setAjaxData',getDataByPage(mydatastr,currentPageno,20));
 
     }
 
@@ -174,7 +183,7 @@
     }
 
     $("#button1").click(deleteData);
-    $("#button2").click(genDelSqlstr);
+    $("#button2").click(test);
 
 </script>
 
