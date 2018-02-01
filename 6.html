@@ -226,7 +226,7 @@
         //alert(JSON.stringify(arr_delData));
         $("#table1")[0].GM('setAjaxData',getDataByPage(tbdatastr,currentPageno,_PAGESIZE));
         var sqlstr=genDelSqlstr();
-        socket.send("delv2001_detail#**#"+sqlstr);
+        socket.send("delv2001_detail#**#"+sqlstr);  //向服務器發送真正的刪除語句.
 
     }
 
