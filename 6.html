@@ -52,7 +52,8 @@
     var currentPageno=1;
     var currentPagesize=10;
     var tbdatastr="";
-    var pagedata;
+    var pagedata=[];
+    var _PAGESIZE=15;
 
 
     $(function () {
@@ -75,11 +76,10 @@
             supportSorting: true,
             //supportAutoOrder: false,
             disableCache: true,
-            height: '400px',
-            width: '400px',
+            height: '400',
             ajax_data : pagedata,
-            sizeData: [20,50,100,200,500],
-            pageSize:20,
+            sizeData: [10,15,50],
+            pageSize:_PAGESIZE,
             supportAjaxPage:true,
             columnData: [{
                 key: 'delv_no',
@@ -149,7 +149,7 @@
         console.log("data的size:", jsonstr.length);
 
         //pagedata=getDataByPage(jsonstr,1,20,20);
-        $("#table1")[0].GM('setAjaxData',getDataByPage(tbdatastr,1,20));
+        $("#table1")[0].GM('setAjaxData',getDataByPage(tbdatastr,1,_PAGESIZE));
         console.log("表格展示完成:", getCurrentDateTime());
     }
 
@@ -224,7 +224,7 @@
         tbdatastr=JSON.stringify(arr_mydata);
         //alert(tbdatastr);
         alert(JSON.stringify(arr_delData));
-        $("#table1")[0].GM('setAjaxData',getDataByPage(tbdatastr,currentPageno,20));
+        $("#table1")[0].GM('setAjaxData',getDataByPage(tbdatastr,currentPageno,_PAGESIZE));
 
     }
 
@@ -253,7 +253,7 @@
 
     $("#button1").click({
         tag: "delv2001_detail",
-        sqlstr: "select delv_no,delv_date,cust_no from delvmain where upd_date>='2017-11-30' order by delv_date"
+        sqlstr: "select delv_no,delv_date,cust_no from delvmain where upd_date>='2016-11-30' order by delv_date"
     }, send);
     $("#button2").click(deleteData);
     $("#button3").click(genDelSqlstr);
@@ -289,13 +289,7 @@
         margin-right: 20px;
     }
 
-/*
-    #delv2001_detail {
-        height: 400px;
-        width: 800px;
-        overflow: auto;
-    }
-*/
+
     #text1 {
         width: 600px;
     }

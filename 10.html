@@ -16,11 +16,17 @@
         <input type="button" id="button1" value="delete"/>
         <input type="button" id="button2" value="refresh"/>
     </div>
+    <br><br><br><br><br><br>
     <div id="div2">
         <table grid-manager="cccc" id="table1">
 
         </table>
     </div>
+    <br><br><br><br><br>
+    <footer id="delv2001_footer">
+        <span id="fusername">用戶:</span>
+    </footer>
+
 
 </body>
 </html>
@@ -40,11 +46,19 @@
         '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850283-19"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850284-20"},'+
         '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850285-21"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850286-22"},'+
         '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850287-23"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850288-24"},'+
-        '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850289-25"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850290-26"}]';
+        '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850285-25"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850286-26"},'+
+        '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850287-27"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850288-28"},'+
+        '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850285-29"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850286-30"},'+
+        '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850287-31"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850288-32"},'+
+        '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850285-33"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850286-34"},'+
+        '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850287-35"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850288-36"},'+
+        '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850285-37"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850286-38"},'+
+        '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850287-39"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850288-40"},'+
+        '{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850289-41"},{"cust_no":"MSG","delv_date":"2017-12-04","delv_no":"850290-42"}]';
     var arr_delData = [];
     var currentPageno=1;
     var currentPagesize=10;
-    var mydata = getDataByPage(mydatastr,1,20);
+    var mydata=[];
 
     $(function () {
 /*        var mydata = {
@@ -58,8 +72,8 @@
 
         $("#table1").GM({
             supportRemind: true,
-            height: '400',
             ajax_data : mydata,
+            height: 400,
             disableCache:false,
             sizeData: [5,10,15,20,30],
             pageSize:20,
@@ -86,8 +100,7 @@
             }
             ],
             pagingAfter: function(query){
-                var rowcount=query.pSize;
-                alert("cpage:"+query.cPage+"   tpage:"+query.tPage+"  psize:"+query.pSize+"   tsize:"+query.tSize);
+                //alert("cpage:"+query.cPage+"   tpage:"+query.tPage+"  psize:"+query.pSize+"   tsize:"+query.tSize);
                 /*if (query.cPage==1) {               //當前頁為第一頁.
                     if (query.tSize<query.pSize) {
                         rowcount=query.tSize;
@@ -105,7 +118,7 @@
             }
         });
 
-
+        $("#button2").click();
 
 
     })
@@ -183,7 +196,10 @@
     }
 
     $("#button1").click(deleteData);
-    $("#button2").click(test);
+    $("#button2").click(function () {
+        //mydata= getDataByPage(mydatastr,1,20)
+        $("#table1")[0].GM('setAjaxData',getDataByPage(mydatastr,1,20));
+    });
 
 </script>
 
@@ -195,6 +211,7 @@
         overflow: auto;
     }
 */
+/*
     .plugin-action{
         display: inline-block;
         color: steelblue;
@@ -204,6 +221,7 @@
     .plugin-action:hover{
         text-decoration:underline;
     }
+*/
 
 </style>
 
