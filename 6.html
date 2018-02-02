@@ -20,10 +20,12 @@
     <div id="delv2001_head">
         <span id="title1">出 貨 單</span>
         <br><br>
-        <div id="delv2001_toolbar1">
+        <div id="delv2001_toolbar">
             <input type="button" id="button1" value="新增"/>
             <input type="button" id="button2" value="修改"/>
             <input type="button" id="button3" value="刪除"/>
+            <input type="button" id="button4" value="保存"/>
+            <input type="button" id="button5" value="取消"/>
         </div>
         <div id="delv2001_main">
             <table grid-manager="aaa" id="table1"></table>
@@ -112,8 +114,6 @@
         })
 
 
-        //隱藏delv2001_insert div.
-        $("#delv2001_insert").hide();
         //先展現最進半年的出貨單數據.
         socket.send("delv2001_detail#**#select delv_no,delv_date,cust_no from delvmain where delv_date>=(current_date-integer '180') order by delv_date desc,delv_no desc");
 
@@ -242,6 +242,30 @@
 
     }
 
+    function cancelData() {
+        setEditStatus();
+    }
+
+    function setEditStatus(){
+        $("#delv2001_insert").hide();
+        $("#delv2001_main").show(1000);
+        $("#button1").show();
+        $("#button2").show();
+        $("#button3").show();
+        $("#button4").hide();
+        $("#button5").hide();
+    }
+
+    function setBrowseStatus() {
+        $("#delv2001_main").hide();
+        $("#delv2001_insert").show(1000);
+        $("#button1").hide();
+        $("#button2").hide();
+        $("#button3").hide();
+        $("#button4").show();
+        $("#button5").show();
+    }
+
 
 
 
@@ -254,13 +278,11 @@
     }, send)
 
     $("#button1").on("click",function () {
-        $("#delv2001_main").hide();
-        $("#delv2001_insert").show(1000);
-        //$("#delv2001_insert").fadeTo(1000,1);
-
-
+        setBrowseStatus();
     })
+
     $("#button3").click(deleteData);
+    $("#button5").click(cancelData);
 
 </script>
 
@@ -292,11 +314,9 @@
         width: 120px;
         margin-right: 20px;
     }
-    #delv2001_insert {
-        /*display: none;*/
-    }
 
-    #table1 {
+    #button4, #button5,#delv2001_insert {
+        display: none;
     }
 
     #text1 {
