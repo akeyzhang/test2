@@ -96,18 +96,6 @@
             }
             ],
             pagingAfter: function(query){
-                //alert("cpage:"+query.cPage+"   tpage:"+query.tPage+"  psize:"+query.pSize+"   tsize:"+query.tSize);
-                /*if (query.cPage==1) {               //當前頁為第一頁.
-                    if (query.tSize<query.pSize) {
-                        rowcount=query.tSize;
-                    }
-                }
-                if (query.cPage==query.tPage) {      //当前为最后一页.
-                    if (query.tSize % query.pSize > 0) {
-                        rowcount = query.tSize % query.pSize;
-                    }
-                }
-                alert("cpage:"+query.cPage+"   tpage:"+query.tPage+"  psize:"+query.pSize+"   tsize:"+query.tSize+"   rowcount:"+rowcount);*/
                 $("#table1")[0].GM('setAjaxData',getDataByPage(mydatastr,query.cPage,query.pSize));
                 currentPageno = query.cPage;
                 currentPagesize = query.pSize;
@@ -182,23 +170,6 @@
         var tr=$("#table1")[0].GM('getCheckedTr');
         var tr_id=[];
         console.log(tr);
-
-        for (var i=tr.length-1;i>=0;i--) {
-            tr_id.push(tr[i].rowIndex);
-            //console.log(tr[i]);
-            //var aa = tr[i].sectionRowIndex + 1;
-            //alert("sectionRowIndex:"+aa+"   RowIndex:"+tr[i].rowIndex);
-/*            if (tr[i].sectionRowIndex+1 != tr[i].rowIndex) {
-                $("#table1")[0].deleteRow(tr[i].sectionRowIndex);
-            } else {
-                $("#table1")[0].deleteRow(tr[i].rowIndex);
-            }*/
-        }
-/*        for (var i=0;i<tr_id.length;i++) {
-            //alert(tr_id[i]);
-            $("#table1")[0].deleteRow(tr_id[i]);
-        }*/
-
     }
 
     function test1() {
@@ -212,7 +183,10 @@
         });
     }
     $("#button1").click(deleteData);
-    $("#button2").click(genDelSqlstr);
+    $("#button2").on("click",function () {
+        $("#div2").fadeTo(1000,0);
+
+    })
 
 </script>
 

@@ -17,15 +17,17 @@
 </head>
 <body>
 <div id="delv2001">
-    <div id="delv2001_main">
+    <div id="delv2001_head">
         <span id="title1">出 貨 單</span>
         <br><br>
         <div id="delv2001_toolbar1">
-            <input type="button" id="button1" value="send"/>
-            <input type="button" id="button2" value="delete"/>
-            <input type="button" id="button3" value="生成delete語句"/>
+            <input type="button" id="button1" value="新增"/>
+            <input type="button" id="button2" value="修改"/>
+            <input type="button" id="button3" value="刪除"/>
         </div>
-        <table grid-manager="aaa" id="table1"></table>
+        <div id="delv2001_main">
+            <table grid-manager="aaa" id="table1"></table>
+        </div>
         <div id="delv2001_insert">
             出貨單號:<input type="text" name="delv_no" id="delv_no1" value=""/>
             出貨日期:<input type="date" name="delv_date" id="delv_date1" value=""/>
@@ -34,10 +36,7 @@
         </div>
     </div>
     <hr>
-    <div id="delv2001_detail">
-
-
-    </div>
+    <div id="delv2001_detail"></div>
     <br><br><br><br><br>
     <footer id="delv2001_footer">
         <span id="fusername">用戶:</span>
@@ -112,6 +111,11 @@
 
         })
 
+
+        //隱藏delv2001_insert div.
+        $("#delv2001_insert").hide();
+        //先展現最進半年的出貨單數據.
+        socket.send("delv2001_detail#**#select delv_no,delv_date,cust_no from delvmain where delv_date>=(current_date-integer '180') order by delv_date desc,delv_no desc");
 
     })
 
@@ -243,16 +247,20 @@
 
 
     $("#delv_date1").val(getCurrentDate());
+    //$("#cust_no1").focusin(alert(111));
     $("#cust_no1").focusin({
         tag: "delv2001_customerList",
-        sqlstr: "select cust_no,cust_sname from customer order by cust_no;"
+        sqlstr: "select cust_no,cust_sname from customer order by cust_no"
     }, send)
 
-    $("#button1").click({
-        tag: "delv2001_detail",
-        sqlstr: "select delv_no,delv_date,cust_no from delvmain where upd_date>='2002-11-30' order by delv_date"
-    }, send);
-    $("#button2").click(deleteData);
+    $("#button1").on("click",function () {
+        $("#delv2001_main").hide();
+        $("#delv2001_insert").show(1000);
+        //$("#delv2001_insert").fadeTo(1000,1);
+
+
+    })
+    $("#button3").click(deleteData);
 
 </script>
 
@@ -285,7 +293,7 @@
         margin-right: 20px;
     }
     #delv2001_insert {
-        display: none;
+        /*display: none;*/
     }
 
     #table1 {
