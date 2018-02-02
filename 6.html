@@ -19,7 +19,7 @@
 <div id="delv2001">
     <div id="delv2001_main">
         <span id="title1">出 貨 單</span>
-        <br><br><br><br>
+        <br><br>
         <div id="delv2001_toolbar1">
             <input type="button" id="button1" value="send"/>
             <input type="button" id="button2" value="delete"/>
@@ -55,7 +55,7 @@
     var currentPagesize=10;
     var tbdatastr="";
     var pagedata=[];
-    var _PAGESIZE=6;
+    var _PAGESIZE=20;
 
 
     $(function () {
@@ -74,37 +74,33 @@
         }
 
         $("#table1").GM({
-            supportRemind: true,
             supportSorting: true,
             //supportAutoOrder: false,
             disableCache: true,
             height: '200px',
             width: '200px',
             ajax_data : pagedata,
-            sizeData: [10,15,50],
+            sizeData: [10,20,50,100],
             pageSize:_PAGESIZE,
             supportAjaxPage:true,
             columnData: [{
                 key: 'delv_no',
-                remind: 'the delv_no',
                 sorting: '',
-                width: '100px',
+                width: '30%',
                 text: '出货单号'
             },{
                 key: 'delv_date',
-                remind: 'the delv_date',
                 sorting: 'up',
-                width: '100px',
+                width: '30%',
                 text: '出货日期',
                 sorting: 'DESC',
                 template: function(delv_date, rowObject) {
-                    return new Date(delv_date).toLocaleDateString();
+                    return FormatDateTimeStr(new Date(delv_date),"yyyy-MM-dd");
                 }
             }, {
                 key: 'cust_no',
                 remind: 'the cust_no',
                 sorting: '',
-                width: '100px',
                 text: '客戶'
             }
             ],
@@ -214,21 +210,16 @@
         //alert(arr_mydata.length);
         arr_delData = [];
         for (var i=tr.length-1;i>=0;i--) {
-            //alert(currentPagesize);
-            var pos = (currentPageno-1)*currentPagesize+tr[i].rowIndex-1;
-            //alert(tr[i].rowIndex);
-            //刪除表格的一行數據.
-            $("#table1")[0].deleteRow(tr[i].rowIndex);
+            var pos = (currentPageno-1)*currentPagesize+tr[i].sectionRowIndex;
             //將要刪除的arr_mydat元素復制到arr_delData數組中,供後面生成刪除的sql語句使用.
             arr_delData.push(arr_mydata[pos]);
             //從arr_mydata數組中刪除pos下標的元素.
             arr_mydata.splice(pos,1);
         }
         tbdatastr=JSON.stringify(arr_mydata);
-        //alert(tbdatastr);
-        //alert(JSON.stringify(arr_delData));
         $("#table1")[0].GM('setAjaxData',getDataByPage(tbdatastr,currentPageno,_PAGESIZE));
         var sqlstr=genDelSqlstr();
+        //重新用最新數據刷新表格.
         socket.send("delv2001_detail#**#"+sqlstr);  //向服務器發送真正的刪除語句.
 
     }
@@ -297,6 +288,8 @@
         display: none;
     }
 
+    #table1 {
+    }
 
     #text1 {
         width: 600px;

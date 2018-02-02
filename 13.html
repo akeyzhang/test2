@@ -8,7 +8,7 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<table id="mytable" border="1">
+<table id="mytable" >
     <tr>
         <th><input type="checkbox" onclick="swapCheck()" /></th>
         <th>Month</th>
@@ -66,17 +66,50 @@
     $(function(){
     });
 
+    function Date2Str(x, y) {
+        var z = { M: x.getMonth() + 1, d: x.getDate(), h: x.getHours(), m: x.getMinutes(), s: x.getSeconds() };
+        y = y.replace(/(M+|d+|h+|m+|s+)/g, function (v) { return ((v.length > 1 ? "0" : "") + eval('z.' + v.slice(-1))).slice(-2) });
+        return y.replace(/(y+)/g, function (v) { return x.getFullYear().toString().slice(-v.length) });
+    }
+
     function test() {
-        $("#mytable").find(":checkbox:checked").each(function(){
-            var data = [];
-            //var val = $(this).parent().next().text();
-            var tr=$(this).parent().parent();
-            console.log(tr.rowIndex);
-            data.push(tr);
-        });
-        console.log(data);
-        console.log(data[0].rowIndex);
-        alert(data[0].rowIndex);
+        var myDate = new Date();
+        console.log('var myDate = new Date();');
+        console.log('myDate  -----------------------------------   ' + myDate);
+
+        console.log('myDate.toDateString()  --------------------   ' + myDate.toDateString());
+        console.log('myDate.toGMTString()  ---------------------   ' + myDate.toGMTString());
+        console.log('myDate.toISOString()  ---------------------   ' + myDate.toISOString());
+        console.log('myDate.toJSON()  --------------------------   ' + myDate.toJSON());
+        console.log('myDate.toLocaleDateString()  --------------   ' + myDate.toLocaleDateString());
+        console.log('myDate.toLocaleString()  ------------------   ' + myDate.toLocaleString());
+        console.log('myDate.toLocaleTimeString()  --------------   ' + myDate.toLocaleTimeString());
+        console.log('myDate.toString()  ------------------------   ' + myDate.toString());
+        console.log('myDate.toTimeString()  --------------------   ' + myDate.toTimeString());
+        console.log('myDate.toUTCString()  ---------------------   ' + myDate.toUTCString());
+
+        console.log('myDate.getDate()  -------------------------   ' + myDate.getDate());
+        console.log('myDate.getDay()  --------------------------   ' + myDate.getDay());
+        console.log('myDate.getFullYear()  ---------------------   ' + myDate.getFullYear());
+        console.log('myDate.getHours()  ------------------------   ' + myDate.getHours());
+        console.log('myDate.getMilliseconds()  -----------------   ' + myDate.getMilliseconds());
+        console.log('myDate.getMinutes()  ----------------------   ' + myDate.getMinutes());
+        console.log('myDate.getMonth()  ------------------------   ' + myDate.getMonth());
+        console.log('myDate.getSeconds()  ----------------------   ' + myDate.getSeconds());
+        console.log('myDate.getTime()  -------------------------   ' + myDate.getTime());
+        console.log('myDate.getTimezoneOffset()  ---------------   ' + myDate.getTimezoneOffset());
+
+        console.log('myDate.getUTCDate()  ----------------------   ' + myDate.getUTCDate());
+        console.log('myDate.getUTCDay()  -----------------------   ' + myDate.getUTCDay());
+        console.log('myDate.getUTCFullYear()  ------------------   ' + myDate.getUTCFullYear());
+        console.log('myDate.getUTCHours()  ---------------------   ' + myDate.getUTCHours());
+        console.log('myDate.getUTCMilliseconds()  --------------   ' + myDate.getUTCMilliseconds());
+        console.log('myDate.getUTCMinutes()  -------------------   ' + myDate.getUTCMinutes());
+        console.log('myDate.getUTCMonth()  ---------------------   ' + myDate.getUTCMonth());
+        console.log('myDate.getUTCSeconds()  -------------------   ' + myDate.getUTCSeconds());
+
+        console.log('myDate.getYear()  -------------------------   ' + myDate.getYear());
+        console.log('myDate.Date2Str()  -------------------------   ' + Date2Str(myDate, "yyyy-MM-dd hh:mm:ss"));
     }
 
     $("#button1").click(test);

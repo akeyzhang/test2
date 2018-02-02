@@ -17,7 +17,7 @@
         <input type="button" id="button2" value="test"/>
     </div>
     <br><br><br><br><br><br>
-    <div id="div2">
+    <div id="div2" board="2">
         <table grid-manager="cccc" id="table1">
 
         </table>
@@ -150,14 +150,13 @@
         //alert(arr_mydata.length);
         arr_delData = [];
         for (var i=tr.length-1;i>=0;i--) {
-            //alert(currentPagesize);
-            var pos = (currentPageno-1)*currentPagesize+tr[i].rowIndex-1;
-            //alert(tr[i].rowIndex);
-            //刪除表格的一行數據.
-            $("#table1")[0].deleteRow(tr[i].rowIndex);
+            //alert("currentPageno"+currentPageno+"   currentPagesize:"+currentPagesize+"  rowIndex:"+tr[i].rowIndex);
+            var pos = (currentPageno-1)*currentPagesize+tr[i].sectionRowIndex;
+
             //將要刪除的arr_mydat元素復制到arr_delData數組中,供後面生成刪除的sql語句使用.
             arr_delData.push(arr_mydata[pos]);
             //從arr_mydata數組中刪除pos下標的元素.
+            //alert(arr_mydata);
             arr_mydata.splice(pos,1);
         }
         mydatastr=JSON.stringify(arr_mydata);
@@ -181,21 +180,39 @@
 
     function test() {
         var tr=$("#table1")[0].GM('getCheckedTr');
-        alert(tr[0].rowIndex);
+        var tr_id=[];
+        console.log(tr);
+
+        for (var i=tr.length-1;i>=0;i--) {
+            tr_id.push(tr[i].rowIndex);
+            //console.log(tr[i]);
+            //var aa = tr[i].sectionRowIndex + 1;
+            //alert("sectionRowIndex:"+aa+"   RowIndex:"+tr[i].rowIndex);
+/*            if (tr[i].sectionRowIndex+1 != tr[i].rowIndex) {
+                $("#table1")[0].deleteRow(tr[i].sectionRowIndex);
+            } else {
+                $("#table1")[0].deleteRow(tr[i].rowIndex);
+            }*/
+        }
+/*        for (var i=0;i<tr_id.length;i++) {
+            //alert(tr_id[i]);
+            $("#table1")[0].deleteRow(tr_id[i]);
+        }*/
+
     }
 
     function test1() {
         var data=[];
         $("#table1").find(":checkbox:checked").each(function(){
-            var val = $(this).parent().next().text();
-            //var val=$(this).parent().parent();
-            console.log(val);
-            data.push(val);
-            alert(data[0]);
+            //var tr = $(this).parent().next().text();
+            var tr=$(this).parentNode.parentNode;
+            console.log(tr);
+            data.push(tr);
+            alert(tr.attr("length"));
         });
     }
     $("#button1").click(deleteData);
-    $("#button2").click(test1);
+    $("#button2").click(genDelSqlstr);
 
 </script>
 
