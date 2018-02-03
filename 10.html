@@ -168,25 +168,26 @@
 
     function test() {
         var tr=$("#table1")[0].GM('getCheckedTr');
-        var tr_id=[];
         console.log(tr);
+        tr[0].color="red";
+        console.log(tr[0].col);
     }
 
     function test1() {
         var data=[];
         $("#table1").find(":checkbox:checked").each(function(){
             //var tr = $(this).parent().next().text();
-            var tr=$(this).parentNode.parentNode;
+            var tr=$(this).parent;
             console.log(tr);
+            tr.background="red";
+            console.log(tr.background);
             data.push(tr);
-            alert(tr.attr("length"));
         });
     }
     $("#button1").click(deleteData);
-    $("#button2").on("click",function () {
-        $("#div2").fadeTo(1000,0);
+    $("#button2").click(test1);
 
-    })
+
 
 </script>
 
