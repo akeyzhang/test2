@@ -28,7 +28,7 @@
             <input type="button" id="button5" value="取消"/>
         </div>
         <div id="delv2001_main">
-            <table grid-manager="aaa" id="table1"></table>
+            <table grid-manager="delvmain" id="table1"></table>
         </div>
         <div id="delv2001_insert">
             出貨單號:<input type="text" name="delv_no" id="delv_no1" value=""/>
@@ -39,6 +39,7 @@
     </div>
     <hr>
     <div id="delv2001_detail"></div>
+        <table grid-manager="delvdetail" id="table2"></table>
     <br><br><br><br><br>
     <footer id="delv2001_footer">
         <span id="fusername">用戶:</span>
@@ -121,37 +122,10 @@
 
 
 
-    function showDetail(jsonstr) {
-        //alert(jsonstr);
-        //jsonstr=trimDateTimeZone(jsonstr);
-        //console.log("去除時區信息:", getCurrentDateTime());
-        /*            var dataArray = JSON.parse(jsonstr);
-                    var icount=dataArray.length;
-
-                    console.log("去除時區信息:", getCurrentDateTime());
-                    var datastr='{"data":'+jsonstr+',"totals":'+icount+'}';
-                    //$("#text1").val(datastr);
-                    alert(datastr);
-        */
-
-        /*            var rstr = "[";
-                    var headtile = new Array("delv_no", "delv_date", "cust_no");
-                    for (var row in datastr) {
-                        rstr += "[";
-                        for (var key in headtile) {
-                            rstr += "'" + datastr[row][headtile[key]] + "',";
-                        }
-                        rstr = rstr.substr(0, rstr.length - 1);
-                        rstr += "],"
-                    }
-                    rstr += "]";
-                    var data = eval(rstr);
-                    console.log("data生成完:", getCurrentDateTime());*/
-
+    function showTable(jsonstr) {
         console.log("data生成完:", getCurrentDateTime());
         console.log("data的size:", jsonstr.length);
 
-        //pagedata=getDataByPage(jsonstr,1,20,20);
         $("#table1")[0].GM('setAjaxData',getDataByPage(tbdatastr,1,_PAGESIZE));
         console.log("表格展示完成:", getCurrentDateTime());
     }
@@ -176,7 +150,7 @@
             //alert(resultStr);
             console.log("得到返回數據:", getCurrentDateTime());
             tbdatastr=resultStr;
-            showDetail(tbdatastr);
+            showTable(tbdatastr);
         }
     }
 

@@ -6,7 +6,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous"></script>
-    <script type="text/javascript" src="js/GridManager.min.js"></script>
+    <script type="text/javascript" src="js/GridManager.js"></script>
     <link rel="stylesheet" type="text/css" href="css/GridManager.min.css"/>
 
 
@@ -29,8 +29,8 @@
 
 <script>
     var mydatastr ='['+
-        '{"cust_no":"MSG","delv_date":"2017-10-30","delv_no":"850270-1"},{"cust_no":"MSG","delv_date":"2017-11-20","delv_no":"850257-2"},'+
-        '{"cust_no":"MSG","delv_date":"2017-12-30","delv_no":"850258-3"},{"cust_no":"MSG","delv_date":"2017-12-20","delv_no":"850259-4"},'+
+        '{"cust_no":"MSG","delv_date":"2017-10-30","delv_no":"850270-1"},{"cust_no":"GW1","delv_date":"2017-11-20","delv_no":"850257-2"},'+
+        '{"cust_no":"MSG","delv_date":"2017-12-30","delv_no":"850258-3"},{"cust_no":"KH1","delv_date":"2017-12-20","delv_no":"850259-4"},'+
         '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850260-5"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850261-6"},'+
         '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850262-7"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850263-8"},'+
         '{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850264-9"},{"cust_no":"MSG","delv_date":"2017-11-30","delv_no":"850265-10"},'+
@@ -57,14 +57,8 @@
     var _PAGESIZE=20;
 
     $(function () {
-/*        var mydata = {
-            "data":[
-                {"partno":"康佳彩電", "proddate":"2006-01-25", "price":1807.80},
-                {"partno":"標致408", "proddate":"2018-01-22", "price":179800},
-                {"partno":"華為mate10", "proddate":"2018-01-01", "price":2338.26}
-                ],
-            "totals": 3
-        };*/
+        $("tr:odd").css( "background-color", "#0099ff" );
+
 
         $("#table1").GM({
             supportRemind: true,
@@ -92,7 +86,12 @@
                 remind: 'the cust_no',
                 sorting: '',
                 width: '60px',
-                text: '客戶'
+                text: '客戶',
+                template: function(action, rowObject){
+                    //return '<span onclick="test(KH1)"' +'">'+rowObject.cust_no+'</span>';
+                    console.log("<span onclick='test("+"'KH1'"+")'>"+rowObject.cust_no+"</span>");
+                    return "<span onclick='test("+"'KH1'"+")'>"+rowObject.cust_no+"</span>";
+                }
             }
             ],
             pagingAfter: function(query){
@@ -103,6 +102,7 @@
         });
 
         $("#table1")[0].GM('setAjaxData',getDataByPage(mydatastr,1,_PAGESIZE));
+
 
 
     })
@@ -166,11 +166,12 @@
 
     }
 
-    function test() {
-        var tr=$("#table1")[0].GM('getCheckedTr');
+    function test(aaa) {
+        alert(aaa);
+/*        var tr=$("#table1")[0].GM('getCheckedTr');
         console.log(tr);
         tr[0].color="red";
-        console.log(tr[0].col);
+        console.log(tr[0].col);*/
     }
 
     function test1() {
@@ -186,6 +187,16 @@
     }
     $("#button1").click(deleteData);
     $("#button2").click(test1);
+    $("#table1").click(function () {
+        //alert(11);
+        console.log(this);
+    })
+
+    $("#table1 tbody tr td").onclick(function () {
+        alert(222);
+        console.log(this);
+
+    })
 
 
 
