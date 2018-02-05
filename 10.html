@@ -57,11 +57,10 @@
     var _PAGESIZE=20;
 
     $(function () {
-        $("tr:odd").css( "background-color", "#0099ff" );
 
 
         $("#table1").GM({
-            supportRemind: true,
+            //supportRemind: true,
             ajax_data : mydata,
             height: '300px',
             disableCache:false,
@@ -73,7 +72,7 @@
                 key: 'delv_no',
                 remind: 'the delv_no',
                 sorting: '',
-                width: '100px',
+                width: '60px',
                 text: '出货单号'
             },{
                 key: 'delv_date',
@@ -85,13 +84,12 @@
                 key: 'cust_no',
                 remind: 'the cust_no',
                 sorting: '',
-                width: '60px',
-                text: '客戶',
-                template: function(action, rowObject){
-                    //return '<span onclick="test(KH1)"' +'">'+rowObject.cust_no+'</span>';
-                    console.log("<span onclick='test("+"'KH1'"+")'>"+rowObject.cust_no+"</span>");
-                    return "<span onclick='test("+"'KH1'"+")'>"+rowObject.cust_no+"</span>";
-                }
+                text: '客戶'
+                /*template: function(action, rowObject){
+                    var aa='<span onclick="test(\''+rowObject.cust_no+'\')">'+rowObject.cust_no+'</span>';
+                    console.log(aa);
+                    return aa;
+                }*/
             }
             ],
             pagingAfter: function(query){
@@ -102,6 +100,16 @@
         });
 
         $("#table1")[0].GM('setAjaxData',getDataByPage(mydatastr,1,_PAGESIZE));
+        $("#table1 tr:even").css("background","#B2E0FF");
+        $("tr").click(function(){
+            var delv_no=$(this).find("td").eq(2).text();
+            //alert(delv_no);
+            test(delv_no);
+
+        })
+        //$("tr").click({"delv_no":$(this).find("td").eq(2).text()},test);
+
+
 
 
 
@@ -167,7 +175,7 @@
     }
 
     function test(aaa) {
-        alert(aaa);
+        alert("this is :"+aaa);
 /*        var tr=$("#table1")[0].GM('getCheckedTr');
         console.log(tr);
         tr[0].color="red";
@@ -187,16 +195,8 @@
     }
     $("#button1").click(deleteData);
     $("#button2").click(test1);
-    $("#table1").click(function () {
-        //alert(11);
-        console.log(this);
-    })
 
-    $("#table1 tbody tr td").onclick(function () {
-        alert(222);
-        console.log(this);
 
-    })
 
 
 
