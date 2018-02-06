@@ -38,8 +38,9 @@
         </div>
     </div>
     <hr>
-    <div id="delv2001_detail"></div>
+    <div id="delv2001_detail">
         <table grid-manager="delvdetail" id="table2"></table>
+    </div>
     <br><br><br><br><br>
     <footer id="delv2001_footer">
         <span id="fusername">用戶:</span>
@@ -53,11 +54,15 @@
 <script>
     var socket = new WebSocket(WSURL);
     var arr_delData = [];
-    var currentPageno=1;
-    var currentPagesize=10;
-    var tbdatastr="";
-    var pagedata=[];
-    var _PAGESIZE=20;
+    var currentPageno = 1;
+    var currentPagesize = 10;
+    var currentPageno1 = 1;
+    var currentPagesize1 = 10;
+    var tbdatastr = "";
+    var tbdatastr1 = "";
+    var pagedata = [];
+    var pagedata1 = [];
+    var _PAGESIZE = 20;
 
 
     $(function () {
@@ -81,23 +86,23 @@
             disableCache: true,
             height: '200px',
             width: '200px',
-            ajax_data : pagedata,
-            sizeData: [10,20,50,100],
-            pageSize:_PAGESIZE,
-            supportAjaxPage:true,
+            ajax_data: pagedata,
+            sizeData: [10, 20, 50, 100],
+            pageSize: _PAGESIZE,
+            supportAjaxPage: true,
             columnData: [{
                 key: 'delv_no',
                 sorting: '',
                 width: '30%',
                 text: '出货单号'
-            },{
+            }, {
                 key: 'delv_date',
                 sorting: 'up',
                 width: '30%',
                 text: '出货日期',
                 sorting: 'DESC',
-                template: function(delv_date, rowObject) {
-                    return FormatDateTimeStr(new Date(delv_date),"yyyy-MM-dd");
+                template: function (delv_date, rowObject) {
+                    return FormatDateTimeStr(new Date(delv_date), "yyyy-MM-dd");
                 }
             }, {
                 key: 'cust_no',
@@ -106,28 +111,85 @@
                 text: '客戶'
             }
             ],
-            pagingAfter: function(query){
-                $("#table1")[0].GM('setAjaxData',getDataByPage(tbdatastr,query.cPage,query.pSize));
+            pagingAfter: function (query) {
+                $("#table1")[0].GM('setAjaxData', getDataByPage(tbdatastr, query.cPage, query.pSize));
+                $("#table1 tr").click(function () {
+                    var delv_no = $(this).find("td").eq(2).text();
+                    showDetailtable(delv_no);
+                });
                 currentPageno = query.cPage;
                 currentPagesize = query.pSize;
             }
+        });
 
-        })
+        $("#table2").GM({
+            supportSorting: true,
+            //supportAutoOrder: false,
+            disableCache: true,
+            height: '350px',
+            width: '200px',
+            ajax_data: pagedata1,
+            sizeData: [5, 10, 20, 50],
+            pageSize: _PAGESIZE,
+            //supportAjaxPage: true,
+            columnData: [{
+                key: 'ord_no',
+                sorting: '',
+                width: '10%',
+                text: '訂單編號'
+            }, {
+                key: 'delv_qty',
+                sorting: '',
+                width: '10%',
+                text: '出货數量'
+            }, {
+                key: 'delv_spare',
+                sorting: '',
+                width: '10%',
+                text: '士啤數'
+            }, {
+                key: 'unt_weight',
+                sorting: '',
+                width: '10%',
+                text: '單重'
+            }, {
+                key: 'remark',
+                sorting: '',
+                text: '備注'
+            }
+            ],
+            pagingAfter: function (query) {
+                $("#table2")[0].GM('setAjaxData', getDataByPage(tbdatastr1, query.cPage, query.pSize));
+                currentPageno1 = query.cPage;
+                currentPagesize1 = query.pSize;
+            }
+        });
 
 
         //先展現最進半年的出貨單數據.
-        socket.send("delv2001_detail#**#select delv_no,delv_date,cust_no from delvmain where delv_date>=(current_date-integer '180') order by delv_date desc,delv_no desc");
+        socket.send("delv2001_main#**#select delv_no,delv_date,cust_no from delvmain where delv_date>=(current_date-integer '180') order by delv_date desc,delv_no desc");
 
     })
+    ;
 
 
-
-    function showTable(jsonstr) {
+    function showMaintable(jsonstr) {
         console.log("data生成完:", getCurrentDateTime());
         console.log("data的size:", jsonstr.length);
 
-        $("#table1")[0].GM('setAjaxData',getDataByPage(tbdatastr,1,_PAGESIZE));
+        $("#table1")[0].GM('setAjaxData', getDataByPage(tbdatastr, 1, _PAGESIZE));
+        $("#table1 tr").click(function () {
+            var delv_no = $(this).find("td").eq(2).text();
+            //alert(delv_no);
+            showDetailtable(delv_no);
+        });
         console.log("表格展示完成:", getCurrentDateTime());
+    }
+
+    function showDetailtable(delv_no) {
+        console.log('delv_no: ' + delv_no);
+        socket.send("delv2001_detail#**#select ord_no,delv_qty,delv_spare,unt_weight,remark from delvdetail where delv_no='" + delv_no + "' order by ord_no");
+
     }
 
 
@@ -146,12 +208,19 @@
                 }
             }
         }
-        if (tag == "delv2001_detail") {
+        if (tag == "delv2001_main") {
             //alert(resultStr);
             console.log("得到返回數據:", getCurrentDateTime());
-            tbdatastr=resultStr;
-            showTable(tbdatastr);
+            tbdatastr = resultStr;
+            showMaintable(tbdatastr);
         }
+        if (tag == "delv2001_detail") {
+            console.log("得到返回明細表數據:", getCurrentDateTime());
+            tbdatastr1 = resultStr;
+            //alert(tbdatastr1);
+            $("#table2")[0].GM('setAjaxData', getDataByPage(tbdatastr1, 1, _PAGESIZE));
+        }
+
     }
 
     function send(event) {
@@ -162,67 +231,71 @@
     }
 
     //分頁取數據.
-    function getDataByPage(datastr,cpage,psize) {//datastr 原始json字串(不帶data頭和totals尾),//cpage跳轉的頁,psize每頁行數,rowcount顯示的行數,有可能是末頁會小於psize.
-        var dataArray=JSON.parse(datastr);
-        var tsize=dataArray.length;
-        var pdatastr='{"data":[';
-        for (var i=(cpage-1)*psize;i<(cpage-1)*psize+psize;i++) {
+    function getDataByPage(datastr, cpage, psize) {//datastr 原始json字串(不帶data頭和totals尾),//cpage跳轉的頁,psize每頁行數,rowcount顯示的行數,有可能是末頁會小於psize.
+        if (datastr=="[]") {
+            return datastr;
+        }
+        var dataArray = JSON.parse(datastr);
+        var tsize = dataArray.length;
+        var pdatastr = '{"data":[';
+        for (var i = (cpage - 1) * psize; i < (cpage - 1) * psize + psize; i++) {
             if (dataArray[i] != undefined) {
-                pdatastr+=JSON.stringify(dataArray[i])+',';    //stringify將數組元素轉換成字串.
+                pdatastr += JSON.stringify(dataArray[i]) + ',';    //stringify將數組元素轉換成字串.
             }
         }
-        pdatastr = pdatastr.substr(0,pdatastr.length-1);
-        pdatastr+='],"totals":'+tsize+'}';
+        pdatastr = pdatastr.substr(0, pdatastr.length - 1);
+        pdatastr += '],"totals":' + tsize + '}';
         //alert(pdatastr);
-        pagedata=JSON.parse(pdatastr);
-        //alert(mydata);
+        pagedata = JSON.parse(pdatastr);
+        //alert(pdatastr);
         return pagedata;
     }
 
     // 删除功能
     function deleteData() {
         //刪除所選的行.
-        var tr=$("#table1")[0].GM('getCheckedTr');
+        var tr = $("#table1")[0].GM('getCheckedTr');
         //for (var i=0;i<tr.length;i++){
-        var arr_mydata=JSON.parse(tbdatastr);
+        var arr_mydata = JSON.parse(tbdatastr);
         //alert(arr_mydata.length);
         arr_delData = [];
-        for (var i=tr.length-1;i>=0;i--) {
-            var pos = (currentPageno-1)*currentPagesize+tr[i].sectionRowIndex;
+        for (var i = tr.length - 1; i >= 0; i--) {
+            var pos = (currentPageno - 1) * currentPagesize + tr[i].sectionRowIndex;
             //將要刪除的arr_mydat元素復制到arr_delData數組中,供後面生成刪除的sql語句使用.
             arr_delData.push(arr_mydata[pos]);
             //從arr_mydata數組中刪除pos下標的元素.
-            arr_mydata.splice(pos,1);
+            arr_mydata.splice(pos, 1);
         }
-        tbdatastr=JSON.stringify(arr_mydata);
-        $("#table1")[0].GM('setAjaxData',getDataByPage(tbdatastr,currentPageno,_PAGESIZE));
-        var sqlstr=genDelSqlstr();
+        tbdatastr = JSON.stringify(arr_mydata);
+        $("#table1")[0].GM('setAjaxData', getDataByPage(tbdatastr, currentPageno, _PAGESIZE));
+        var sqlstr = genDelSqlstr();
         //重新用最新數據刷新表格.
-        socket.send("delv2001_detail#**#"+sqlstr);  //向服務器發送真正的刪除語句.
+        socket.send("delv2001_main#**#" + sqlstr);  //向服務器發送真正的刪除語句.
 
     }
 
     function genDelSqlstr() {
-        var sqlstr="";
-        if (arr_delData.length>0) {
-            sqlstr="delete from delvmain where "
+        var sqlstr = "";
+        if (arr_delData.length > 0) {
+            sqlstr = "delete from delvmain where "
         }
-        for (var i=0;i<arr_delData.length;i++) {
-            sqlstr+="(delv_no='"+arr_delData[i].delv_no+"') or ";
+        for (var i = 0; i < arr_delData.length; i++) {
+            sqlstr += "(delv_no='" + arr_delData[i].delv_no + "') or ";
         }
-        sqlstr=sqlstr.substr(0,sqlstr.length-3);
+        sqlstr = sqlstr.substr(0, sqlstr.length - 3);
         //alert(sqlstr);
         return sqlstr;
 
     }
 
     function cancelData() {
-        setEditStatus();
+        setBrowseStatus();
     }
 
-    function setEditStatus(){
+    function setBrowseStatus() {
         $("#delv2001_insert").hide();
         $("#delv2001_main").show(1000);
+        $("#delv2001_detail").show(1000);
         $("#button1").show();
         $("#button2").show();
         $("#button3").show();
@@ -230,8 +303,9 @@
         $("#button5").hide();
     }
 
-    function setBrowseStatus() {
+    function setEditStatus() {
         $("#delv2001_main").hide();
+        $("#delv2001_detail").hide();
         $("#delv2001_insert").show(1000);
         $("#button1").hide();
         $("#button2").hide();
@@ -241,9 +315,6 @@
     }
 
 
-
-
-
     $("#delv_date1").val(getCurrentDate());
     //$("#cust_no1").focusin(alert(111));
     $("#cust_no1").focusin({
@@ -251,10 +322,13 @@
         sqlstr: "select cust_no,cust_sname from customer order by cust_no"
     }, send)
 
-    $("#button1").on("click",function () {
-        setBrowseStatus();
+    $("#button1").on("click", function () {
+        setEditStatus();
     })
 
+    $("#button2").click(function () {
+        $("#table2")[0].GM('setAjaxData', []);
+    })
     $("#button3").click(deleteData);
     $("#button5").click(cancelData);
 
@@ -289,7 +363,7 @@
         margin-right: 20px;
     }
 
-    #button4, #button5,#delv2001_insert {
+    #button4, #button5, #delv2001_insert {
         display: none;
     }
 

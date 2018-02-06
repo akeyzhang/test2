@@ -101,7 +101,7 @@
 
         $("#table1")[0].GM('setAjaxData',getDataByPage(mydatastr,1,_PAGESIZE));
         $("#table1 tr:even").css("background","#B2E0FF");
-        $("tr").click(function(){
+        $("#table1 tr").click(function(){
             var delv_no=$(this).find("td").eq(2).text();
             //alert(delv_no);
             test(delv_no);
